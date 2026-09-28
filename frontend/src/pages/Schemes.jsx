@@ -475,9 +475,9 @@ function Schemes() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
+    <main className="min-h-screen overflow-x-hidden bg-slate-950 px-4 py-12 text-white sm:px-6 sm:py-16">
 
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto w-full max-w-5xl">
 
         {/* HEADER */}
 
@@ -492,15 +492,15 @@ function Schemes() {
           }}
         >
 
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-400">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400 sm:text-sm sm:tracking-[0.25em]">
             {t.schemesResults.resultsLabel}
           </p>
 
-          <h1 className="text-4xl font-bold md:text-5xl">
+          <h1 className="break-words text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">
             {t.schemesResults.title}
           </h1>
 
-          <p className="mt-4 max-w-2xl text-slate-300">
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
             {t.schemesResults.description}
           </p>
 
@@ -508,20 +508,20 @@ function Schemes() {
 
         {/* ASSESSMENT SUMMARY */}
 
-        <div className="mt-10 rounded-2xl border border-cyan-400/20 bg-cyan-500/10 p-6">
+        <div className="mt-8 rounded-2xl border border-cyan-400/20 bg-cyan-500/10 p-4 sm:mt-10 sm:p-6">
 
-          <h2 className="text-xl font-bold">
+          <h2 className="text-lg font-bold sm:text-xl">
             {t.schemesResults.assessment}
           </h2>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
 
-            <div>
+            <div className="min-w-0">
               <p className="text-sm text-slate-400">
                 {t.schemesResults.annualIncome}
               </p>
 
-              <p className="font-semibold">
+              <p className="break-words font-semibold">
                 {formatIncome(
                   answers.income,
                   t
@@ -529,46 +529,46 @@ function Schemes() {
               </p>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-sm text-slate-400">
                 {t.schemesResults.category}
               </p>
 
-              <p className="font-semibold">
+              <p className="break-words font-semibold">
                 {answers.category ||
                   t.schemesResults.notSpecified}
               </p>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-sm text-slate-400">
                 {t.schemesResults.purpose}
               </p>
 
-              <p className="font-semibold">
+              <p className="break-words font-semibold">
                 {answers.purpose ||
                   t.schemesResults.notSpecified}
               </p>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-sm text-slate-400">
                 {t.schemesResults.state}
               </p>
 
-              <p className="font-semibold">
+              <p className="break-words font-semibold">
                 {answers.state ||
                   t.schemesResults.notSpecified}
               </p>
             </div>
 
             {answers.district && (
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm text-slate-400">
                   {t.schemesResults.district}
                 </p>
 
-                <p className="font-semibold">
+                <p className="break-words font-semibold">
                   {answers.district}
                 </p>
               </div>
@@ -592,18 +592,18 @@ function Schemes() {
           transition={{
             delay: 0.15,
           }}
-          className="mt-8 rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-6"
+          className="mt-6 rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-4 sm:mt-8 sm:p-6"
         >
 
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
 
-            <div>
+            <div className="min-w-0">
 
-              <p className="text-sm font-semibold uppercase tracking-wider text-cyan-400">
+              <p className="text-xs font-semibold uppercase tracking-wider text-cyan-400 sm:text-sm">
                 {t.schemesResults.nextStep}
               </p>
 
-              <h2 className="mt-2 text-2xl font-bold">
+              <h2 className="mt-2 break-words text-xl font-bold sm:text-2xl">
                 {t.schemesResults.findPartnerTitle}
               </h2>
 
@@ -615,7 +615,7 @@ function Schemes() {
 
             <button
               onClick={openChannelPartners}
-              className="shrink-0 rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-cyan-300"
+              className="w-full shrink-0 rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-cyan-300 md:w-auto"
             >
               📍 {t.schemesResults.findPartner} →
             </button>
@@ -626,15 +626,15 @@ function Schemes() {
 
         {/* RECOMMENDATIONS */}
 
-        <div className="mt-10">
+        <div className="mt-8 sm:mt-10">
 
-          <div className="mb-5 flex items-center justify-between">
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-            <h2 className="text-2xl font-bold">
+            <h2 className="text-xl font-bold sm:text-2xl">
               {t.schemesResults.recommended}
             </h2>
 
-            <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-sm text-emerald-400">
+            <span className="w-fit rounded-full bg-emerald-400/10 px-3 py-1 text-sm text-emerald-400">
               {matchedSchemes.length}{" "}
               {t.schemesResults.options}
             </span>
@@ -647,7 +647,7 @@ function Schemes() {
             answers.purpose
           ) !== "other" && (
 
-            <div className="mb-6 rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-5">
+            <div className="mb-6 rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-4 sm:p-5">
 
               <p className="text-sm font-semibold text-cyan-300">
                 {t.schemesResults.purposeFiltered}
@@ -657,7 +657,7 @@ function Schemes() {
 
                 {t.schemesResults.purposeMessage}{" "}
 
-                <span className="font-semibold text-white">
+                <span className="break-words font-semibold text-white">
                   {answers.purpose}
                 </span>
 
@@ -673,7 +673,7 @@ function Schemes() {
 
           {/* SCHEME CARDS */}
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-5 md:grid-cols-2">
 
             {matchedSchemes.map(
               (scheme, index) => (
@@ -695,27 +695,27 @@ function Schemes() {
                   whileHover={{
                     y: -6,
                   }}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition hover:border-emerald-400/40"
+                  className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm transition hover:border-emerald-400/40 sm:p-6"
                 >
 
                   {/* HEADING */}
 
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start justify-between gap-3 sm:gap-4">
 
-                    <div>
+                    <div className="min-w-0">
 
-                      <p className="text-sm font-semibold uppercase tracking-wider text-emerald-400">
+                      <p className="break-words text-xs font-semibold uppercase tracking-wider text-emerald-400 sm:text-sm">
                         {scheme.type ||
                           t.schemesResults.financialAssistance}
                       </p>
 
-                      <h3 className="mt-2 text-xl font-bold">
+                      <h3 className="mt-2 break-words text-lg font-bold leading-6 sm:text-xl">
                         {scheme.name}
                       </h3>
 
                     </div>
 
-                    <div className="shrink-0 rounded-xl bg-emerald-400/10 px-3 py-2 font-bold text-emerald-400">
+                    <div className="shrink-0 rounded-xl bg-emerald-400/10 px-2.5 py-2 text-sm font-bold text-emerald-400 sm:px-3">
                       {scheme.matchScore}%
                     </div>
 
@@ -723,19 +723,19 @@ function Schemes() {
 
                   {/* DESCRIPTION */}
 
-                  <p className="mt-4 text-sm leading-6 text-slate-300">
+                  <p className="mt-4 break-words text-sm leading-6 text-slate-300">
                     {scheme.description}
                   </p>
 
                   {/* MATCH EXPLANATION */}
 
-                  <div className="mt-5 rounded-xl bg-emerald-400/5 p-4">
+                  <div className="mt-5 rounded-xl bg-emerald-400/5 p-3.5 sm:p-4">
 
                     <p className="text-sm font-semibold text-emerald-400">
                       {t.schemesResults.whyRecommended}
                     </p>
 
-                    <ul className="mt-2 space-y-2 text-sm text-slate-300">
+                    <ul className="mt-2 space-y-2 text-sm leading-5 text-slate-300">
 
                       {scheme.reasons?.map(
                         (
@@ -746,6 +746,7 @@ function Schemes() {
                             key={
                               reasonIndex
                             }
+                            className="break-words"
                           >
                             ✓ {reason}
                           </li>
@@ -760,13 +761,13 @@ function Schemes() {
 
                   {scheme.warnings?.length > 0 && (
 
-                    <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/5 p-4">
+                    <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/5 p-3.5 sm:p-4">
 
                       <p className="text-sm font-semibold text-amber-400">
                         {t.schemesResults.eligibilityNote}
                       </p>
 
-                      <ul className="mt-2 space-y-2 text-sm text-slate-300">
+                      <ul className="mt-2 space-y-2 text-sm leading-5 text-slate-300">
 
                         {scheme.warnings.map(
                           (
@@ -777,6 +778,7 @@ function Schemes() {
                               key={
                                 warningIndex
                               }
+                              className="break-words"
                             >
                               ⚠ {warning}
                             </li>
@@ -797,7 +799,7 @@ function Schemes() {
                       {t.schemesResults.maximumAssistance}
                     </p>
 
-                    <p className="mt-1 text-lg font-bold text-emerald-400">
+                    <p className="mt-1 break-words text-lg font-bold text-emerald-400">
 
                       {scheme.maxAmount
                         ? `₹${Number(
@@ -813,7 +815,7 @@ function Schemes() {
 
                   {/* SOURCE */}
 
-                  <p className="mt-4 text-xs text-slate-500">
+                  <p className="mt-4 break-words text-xs leading-5 text-slate-500">
                     {t.schemesResults.source}{" "}
                     {scheme.source?.name ||
                       t.schemesResults.sourceNotSpecified}
@@ -849,7 +851,7 @@ function Schemes() {
 
         {/* DISCLAIMER */}
 
-        <div className="mt-8 rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-5">
+        <div className="mt-8 rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-4 sm:p-5">
 
           <p className="text-sm font-semibold text-yellow-300">
             ⚠ {t.schemesResults.important}

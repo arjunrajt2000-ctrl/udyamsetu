@@ -266,7 +266,7 @@ function ChannelPartners() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
+    <main className="min-h-screen bg-slate-950 px-4 py-10 text-white sm:px-6 sm:py-14 lg:py-16">
 
       <div className="mx-auto max-w-6xl">
 
@@ -274,9 +274,9 @@ function ChannelPartners() {
 
         <div className="pointer-events-none fixed inset-0 overflow-hidden">
 
-          <div className="absolute left-[10%] top-[10%] h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
+          <div className="absolute left-[10%] top-[10%] h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl sm:h-72 sm:w-72" />
 
-          <div className="absolute right-[10%] top-[40%] h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
+          <div className="absolute right-[5%] top-[40%] h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl sm:right-[10%] sm:h-80 sm:w-80" />
 
         </div>
 
@@ -295,15 +295,15 @@ function ChannelPartners() {
           className="relative z-10"
         >
 
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-400">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-400 sm:text-sm sm:tracking-[0.25em]">
             {text.eyebrow}
           </p>
 
-          <h1 className="mt-3 text-4xl font-bold md:text-5xl">
+          <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">
             {text.title}
           </h1>
 
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">
+          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 sm:mt-5 sm:text-lg sm:leading-8">
             {text.description}
           </p>
 
@@ -324,23 +324,23 @@ function ChannelPartners() {
           transition={{
             delay: 0.15,
           }}
-          className="relative z-10 mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur"
+          className="relative z-10 mt-8 rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur sm:mt-10 sm:p-6"
         >
 
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-xl font-bold sm:text-2xl">
             {text.searchTitle}
           </h2>
 
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm leading-6 text-slate-400">
             {text.searchDescription}
           </p>
 
 
-          <div className="mt-6 grid gap-5 md:grid-cols-3">
+          <div className="mt-5 grid gap-4 sm:gap-5 md:grid-cols-3">
 
             {/* STATE */}
 
-            <div>
+            <div className="min-w-0">
 
               <label className="mb-2 block text-sm font-semibold">
                 {text.state}
@@ -351,7 +351,7 @@ function ChannelPartners() {
                 onChange={(e) =>
                   setState(e.target.value)
                 }
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-white outline-none focus:border-emerald-400"
+                className="w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 p-3.5 text-sm text-white outline-none focus:border-emerald-400 sm:p-4 sm:text-base"
               >
 
                 <option value="Tamil Nadu">
@@ -369,7 +369,7 @@ function ChannelPartners() {
 
             {/* DISTRICT */}
 
-            <div>
+            <div className="min-w-0">
 
               <label className="mb-2 block text-sm font-semibold">
                 {text.district}
@@ -382,7 +382,7 @@ function ChannelPartners() {
                   setDistrict(e.target.value)
                 }
                 placeholder={text.districtPlaceholder}
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-white placeholder:text-slate-600 outline-none focus:border-emerald-400"
+                className="w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 p-3.5 text-sm text-white placeholder:text-slate-600 outline-none focus:border-emerald-400 sm:p-4 sm:text-base"
               />
 
             </div>
@@ -390,7 +390,7 @@ function ChannelPartners() {
 
             {/* TYPE */}
 
-            <div>
+            <div className="min-w-0">
 
               <label className="mb-2 block text-sm font-semibold">
                 {text.type}
@@ -401,7 +401,7 @@ function ChannelPartners() {
                 onChange={(e) =>
                   setPartnerType(e.target.value)
                 }
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-white outline-none focus:border-emerald-400"
+                className="w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 p-3.5 text-sm text-white outline-none focus:border-emerald-400 sm:p-4 sm:text-base"
               >
 
                 {partnerTypes.map((type) => (
@@ -426,11 +426,11 @@ function ChannelPartners() {
 
         {/* RESULTS HEADER */}
 
-        <div className="relative z-10 mt-10 flex flex-wrap items-center justify-between gap-4">
+        <div className="relative z-10 mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
 
           <div>
 
-            <h2 className="text-2xl font-bold">
+            <h2 className="text-xl font-bold sm:text-2xl">
               {text.resultsTitle}
             </h2>
 
@@ -447,7 +447,7 @@ function ChannelPartners() {
           </div>
 
 
-          <div className="rounded-full bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-400">
+          <div className="w-fit max-w-full break-words rounded-full bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-400">
             {state || text.allStates}
           </div>
 
@@ -456,7 +456,7 @@ function ChannelPartners() {
 
         {/* PARTNER CARDS */}
 
-        <div className="relative z-10 mt-6 grid gap-6 md:grid-cols-2">
+        <div className="relative z-10 mt-5 grid gap-5 sm:mt-6 md:grid-cols-2">
 
           {filteredPartners.map(
             (partner, index) => (
@@ -477,24 +477,24 @@ function ChannelPartners() {
                 whileHover={{
                   y: -5,
                 }}
-                className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:border-emerald-400/30"
+                className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur transition hover:border-emerald-400/30 sm:p-6"
               >
 
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start justify-between gap-3">
 
-                  <div>
+                  <div className="min-w-0 flex-1">
 
-                    <span className="inline-flex rounded-full bg-cyan-400/10 px-3 py-1 text-xs font-bold text-cyan-300">
+                    <span className="inline-flex max-w-full rounded-full bg-cyan-400/10 px-3 py-1 text-xs font-bold text-cyan-300">
                       {partner.type}
                     </span>
 
-                    <h3 className="mt-3 text-xl font-bold leading-7">
+                    <h3 className="mt-3 break-words text-lg font-bold leading-6 sm:text-xl sm:leading-7">
                       {partner.name[language]}
                     </h3>
 
                   </div>
 
-                  <span className="text-2xl">
+                  <span className="shrink-0 text-xl sm:text-2xl">
                     🏢
                   </span>
 
@@ -503,13 +503,13 @@ function ChannelPartners() {
 
                 {/* LOCATION */}
 
-                <div className="mt-5 rounded-xl bg-black/20 p-4">
+                <div className="mt-4 rounded-xl bg-black/20 p-3.5 sm:mt-5 sm:p-4">
 
                   <p className="text-xs uppercase tracking-wider text-slate-500">
                     {text.location}
                   </p>
 
-                  <p className="mt-1 font-semibold">
+                  <p className="mt-1 break-words text-sm font-semibold sm:text-base">
                     📍{" "}
                     {partner.district},{" "}
                     {isTamil ? "தமிழ்நாடு" : "Tamil Nadu"}
@@ -520,7 +520,7 @@ function ChannelPartners() {
 
                 {/* DESCRIPTION */}
 
-                <p className="mt-5 text-sm leading-6 text-slate-400">
+                <p className="mt-4 text-sm leading-6 text-slate-400 sm:mt-5">
                   {partner.description[language]}
                 </p>
 
@@ -534,7 +534,7 @@ function ChannelPartners() {
 
                 {/* ACTIONS */}
 
-                <div className="mt-6 flex flex-wrap gap-3">
+                <div className="mt-5 flex flex-col gap-3 sm:mt-6 sm:flex-row">
 
                   <button
                     onClick={() =>
@@ -542,7 +542,7 @@ function ChannelPartners() {
                         partner.name.en
                       )
                     }
-                    className="flex-1 rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
+                    className="w-full rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300 sm:flex-1"
                   >
                     {text.viewMap}
                   </button>
@@ -552,7 +552,7 @@ function ChannelPartners() {
                     onClick={() =>
                       alert(text.verifyAlert)
                     }
-                    className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white sm:w-auto"
                   >
                     ℹ {text.verify}
                   </button>
@@ -571,13 +571,13 @@ function ChannelPartners() {
 
         {filteredPartners.length === 0 && (
 
-          <div className="relative z-10 mt-8 rounded-2xl border border-amber-400/20 bg-amber-400/5 p-6 text-center">
+          <div className="relative z-10 mt-6 rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5 text-center sm:mt-8 sm:p-6">
 
-            <p className="text-lg font-bold text-amber-300">
+            <p className="text-base font-bold text-amber-300 sm:text-lg">
               {text.noPartners}
             </p>
 
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm leading-6 text-slate-400">
               {text.noPartnersDescription}
             </p>
 
@@ -588,9 +588,9 @@ function ChannelPartners() {
 
         {/* NEARBY MAP */}
 
-        <section className="relative z-10 mt-10 rounded-3xl border border-cyan-400/20 bg-cyan-400/5 p-6">
+        <section className="relative z-10 mt-8 rounded-3xl border border-cyan-400/20 bg-cyan-400/5 p-4 sm:mt-10 sm:p-6">
 
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-xl font-bold sm:text-2xl">
             {text.nearbyTitle}
           </h2>
 
@@ -600,7 +600,7 @@ function ChannelPartners() {
 
           <button
             onClick={searchNearby}
-            className="mt-5 rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-cyan-300"
+            className="mt-5 w-full rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
           >
             {text.searchNearby}
           </button>
@@ -610,7 +610,7 @@ function ChannelPartners() {
 
         {/* IMPORTANT NOTICE */}
 
-        <section className="relative z-10 mt-8 rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-6">
+        <section className="relative z-10 mt-6 rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-4 sm:mt-8 sm:p-6">
 
           <p className="text-sm font-semibold text-yellow-300">
             {text.important}

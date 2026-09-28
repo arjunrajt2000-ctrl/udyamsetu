@@ -12,6 +12,7 @@ function Assessment() {
     category: "",
     purpose: "",
     state: "",
+    estimatedCost: "",
   })
 
   const handleChange = (e) => {
@@ -50,6 +51,7 @@ function Assessment() {
     const submittedForm = {
       ...form,
       income,
+      estimatedCost: Number(form.estimatedCost),
     }
 
     console.log("Assessment answers:", submittedForm)
@@ -58,32 +60,34 @@ function Assessment() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 px-4 py-12 text-white sm:px-6 sm:py-16">
-      <div className="mx-auto max-w-3xl">
+    <main className="min-h-screen overflow-x-hidden bg-slate-950 px-3 py-8 text-white sm:px-6 sm:py-12 md:py-16">
 
-        {/* Page Label */}
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400 sm:tracking-[0.25em]">
+      <div className="mx-auto w-full max-w-3xl">
+
+        {/* PAGE LABEL */}
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-400 sm:text-sm sm:tracking-[0.2em] md:tracking-[0.25em]">
           UdyamSetu Assessment
         </p>
 
-        {/* Title */}
+        {/* TITLE */}
         <h1 className="text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">
           {t.assessment.title}
         </h1>
 
-        {/* Description */}
-        <p className="mt-4 text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
+        {/* DESCRIPTION */}
+        <p className="mt-4 text-sm leading-6 text-slate-300 sm:text-base sm:leading-7 md:text-lg md:leading-8">
           {t.assessment.subtitle}
         </p>
 
+        {/* FORM */}
         <form
           onSubmit={handleSubmit}
-          className="mt-8 space-y-6 rounded-2xl border border-slate-800 bg-slate-900/70 p-4 shadow-2xl sm:mt-10 sm:p-6"
+          className="mt-7 w-full space-y-5 rounded-2xl border border-slate-800 bg-slate-900/70 p-4 shadow-2xl sm:mt-9 sm:space-y-6 sm:p-6 md:p-7"
         >
 
-          {/* Income */}
-          <div>
-            <label className="mb-2 block font-semibold">
+          {/* INCOME */}
+          <div className="w-full">
+            <label className="mb-2 block text-sm font-semibold leading-6 sm:text-base">
               {t.assessment.income}
             </label>
 
@@ -92,7 +96,7 @@ function Assessment() {
               value={form.income}
               onChange={handleChange}
               required
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm text-white outline-none focus:border-emerald-400 sm:text-base"
+              className="box-border w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 p-3.5 text-sm text-white outline-none transition focus:border-emerald-400 sm:p-4 sm:text-base"
             >
               <option value="">
                 {t.assessment.incomePlaceholder}
@@ -117,9 +121,9 @@ function Assessment() {
           </div>
 
 
-          {/* Category */}
-          <div>
-            <label className="mb-2 block font-semibold">
+          {/* CATEGORY */}
+          <div className="w-full">
+            <label className="mb-2 block text-sm font-semibold leading-6 sm:text-base">
               {t.assessment.category}
             </label>
 
@@ -128,7 +132,7 @@ function Assessment() {
               value={form.category}
               onChange={handleChange}
               required
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm text-white outline-none focus:border-emerald-400 sm:text-base"
+              className="box-border w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 p-3.5 text-sm text-white outline-none transition focus:border-emerald-400 sm:p-4 sm:text-base"
             >
               <option value="">
                 {t.assessment.categoryPlaceholder}
@@ -143,9 +147,9 @@ function Assessment() {
           </div>
 
 
-          {/* Purpose */}
-          <div>
-            <label className="mb-2 block font-semibold">
+          {/* PURPOSE */}
+          <div className="w-full">
+            <label className="mb-2 block text-sm font-semibold leading-6 sm:text-base">
               {t.assessment.purpose}
             </label>
 
@@ -154,7 +158,7 @@ function Assessment() {
               value={form.purpose}
               onChange={handleChange}
               required
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm text-white outline-none focus:border-emerald-400 sm:text-base"
+              className="box-border w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 p-3.5 text-sm text-white outline-none transition focus:border-emerald-400 sm:p-4 sm:text-base"
             >
               <option value="">
                 {t.assessment.purposePlaceholder}
@@ -179,9 +183,9 @@ function Assessment() {
           </div>
 
 
-          {/* State */}
-          <div>
-            <label className="mb-2 block font-semibold">
+          {/* STATE */}
+          <div className="w-full">
+            <label className="mb-2 block text-sm font-semibold leading-6 sm:text-base">
               {t.assessment.state}
             </label>
 
@@ -190,7 +194,7 @@ function Assessment() {
               value={form.state}
               onChange={handleChange}
               required
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-4 text-sm text-white outline-none focus:border-emerald-400 sm:text-base"
+              className="box-border w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 p-3.5 text-sm text-white outline-none transition focus:border-emerald-400 sm:p-4 sm:text-base"
             >
               <option value="">
                 {t.assessment.statePlaceholder}
@@ -207,10 +211,31 @@ function Assessment() {
           </div>
 
 
-          {/* Submit */}
+          {/* ESTIMATED COST */}
+          <div className="w-full">
+            <label className="mb-2 block text-sm font-semibold leading-6 sm:text-base">
+              {t.assessment.estimatedCost}
+            </label>
+
+            <input
+              type="number"
+              name="estimatedCost"
+              value={form.estimatedCost}
+              onChange={handleChange}
+              min="0"
+              step="1"
+              required
+              inputMode="numeric"
+              placeholder="₹ 5,00,000"
+              className="box-border w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 p-3.5 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-emerald-400 sm:p-4 sm:text-base"
+            />
+          </div>
+
+
+          {/* SUBMIT */}
           <button
             type="submit"
-            className="w-full rounded-xl bg-emerald-500 px-6 py-4 font-bold text-sm text-slate-950 transition hover:scale-[1.01] hover:bg-emerald-400 sm:text-base"
+            className="w-full rounded-xl bg-emerald-500 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:bg-emerald-400 active:scale-[0.99] sm:px-6 sm:py-4 sm:text-base"
           >
             {t.assessment.submit} →
           </button>

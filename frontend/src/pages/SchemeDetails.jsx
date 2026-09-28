@@ -86,14 +86,14 @@ function SchemeDetails() {
 
   if (!scheme) {
     return (
-      <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
+      <main className="min-h-screen bg-slate-950 px-4 py-10 text-white sm:px-6 sm:py-16">
         <div className="mx-auto max-w-3xl text-center">
 
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-3xl font-bold sm:text-4xl">
             {isTamil ? "திட்டம் கிடைக்கவில்லை" : "Scheme Not Found"}
           </h1>
 
-          <p className="mt-3 text-slate-400">
+          <p className="mt-3 text-sm leading-6 text-slate-400 sm:text-base">
             {isTamil
               ? "தேர்வு செய்யப்பட்ட திட்டத்தைக் கண்டறிய முடியவில்லை."
               : "The selected scheme could not be found."}
@@ -101,7 +101,7 @@ function SchemeDetails() {
 
           <button
             onClick={() => navigate("/schemes")}
-            className="mt-6 rounded-xl bg-emerald-400 px-6 py-3 font-semibold text-slate-950 hover:bg-emerald-300"
+            className="mt-6 rounded-xl bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-emerald-300 sm:px-6"
           >
             {isTamil
               ? "← திட்டங்களுக்குத் திரும்பவும்"
@@ -217,7 +217,7 @@ function SchemeDetails() {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
+    <main className="min-h-screen bg-slate-950 px-4 py-10 text-white sm:px-6 sm:py-16">
 
       <div className="mx-auto max-w-5xl">
 
@@ -225,7 +225,7 @@ function SchemeDetails() {
 
         <button
           onClick={() => navigate("/schemes")}
-          className="mb-8 text-sm text-slate-400 transition hover:text-white"
+          className="mb-6 text-sm text-slate-400 transition hover:text-white sm:mb-8"
         >
           {isTamil
             ? "← பரிந்துரைகளுக்குத் திரும்பவும்"
@@ -237,27 +237,27 @@ function SchemeDetails() {
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-8"
+          className="relative rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-5 sm:p-8"
         >
 
           <button
             onClick={() => navigate("/loan-calculator")}
-            className="static mb-6 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2.5 text-sm font-semibold text-cyan-300 transition hover:border-cyan-400/60 hover:bg-cyan-400/20 hover:text-cyan-200 md:absolute md:right-6 md:top-6 md:mb-0"
+            className="static mb-5 w-full rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2.5 text-sm font-semibold text-cyan-300 transition hover:border-cyan-400/60 hover:bg-cyan-400/20 hover:text-cyan-200 sm:w-auto md:absolute md:right-6 md:top-6 md:mb-0"
           >
             🧮 {isTamil ? "EMI கணிப்பான்" : "EMI Calculator"}
           </button>
 
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-400">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400 sm:text-sm sm:tracking-[0.25em]">
             {isTamil
               ? "UdyamSetu திட்ட விவரங்கள்"
               : "UdyamSetu Scheme Details"}
           </p>
 
-          <h1 className="mt-3 pr-0 text-4xl font-bold md:pr-40 md:text-5xl">
+          <h1 className="mt-3 break-words text-3xl font-bold leading-tight md:pr-40 md:text-5xl">
             {scheme.name}
           </h1>
 
-          <p className="mt-4 text-slate-300">
+          <p className="mt-4 text-sm leading-6 text-slate-300 sm:text-base">
             {scheme.provider ||
               (isTamil
                 ? "அரசு நிதியுதவி திட்டம்"
@@ -265,9 +265,9 @@ function SchemeDetails() {
           </p>
 
           {scheme.matchScore && (
-            <div className="mt-6 inline-flex items-center gap-3 rounded-full bg-emerald-400/10 px-5 py-2">
+            <div className="mt-6 inline-flex items-center gap-3 rounded-full bg-emerald-400/10 px-4 py-2 sm:px-5">
 
-              <span className="text-sm text-slate-300">
+              <span className="text-xs text-slate-300 sm:text-sm">
                 {isTamil ? "சுயவிவரப் பொருத்தம்" : "Profile Match"}
               </span>
 
@@ -286,14 +286,14 @@ function SchemeDetails() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6"
+          className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 sm:mt-8 sm:p-6"
         >
 
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-xl font-bold sm:text-2xl">
             {isTamil ? "திட்டத்தைப் பற்றி" : "About the Scheme"}
           </h2>
 
-          <p className="mt-4 leading-7 text-slate-300">
+          <p className="mt-4 text-sm leading-7 text-slate-300 sm:text-base">
             {scheme.description}
           </p>
 
@@ -301,15 +301,15 @@ function SchemeDetails() {
 
         {/* KEY INFORMATION */}
 
-        <section className="mt-8 grid gap-5 md:grid-cols-3">
+        <section className="mt-6 grid gap-4 sm:mt-8 sm:gap-5 md:grid-cols-3">
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
 
             <p className="text-sm text-slate-400">
               {isTamil ? "அதிகபட்ச நிதியுதவி" : "Maximum Funding"}
             </p>
 
-            <p className="mt-2 text-2xl font-bold text-emerald-400">
+            <p className="mt-2 break-words text-xl font-bold text-emerald-400 sm:text-2xl">
               {scheme.maxAmount
                 ? `₹${Number(
                     scheme.maxAmount
@@ -321,26 +321,26 @@ function SchemeDetails() {
 
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
 
             <p className="text-sm text-slate-400">
               {isTamil ? "வட்டி விகிதம்" : "Interest Rate"}
             </p>
 
-            <p className="mt-2 text-2xl font-bold">
+            <p className="mt-2 break-words text-xl font-bold sm:text-2xl">
               {scheme.interestRate ||
                 (isTamil ? "குறிப்பிடப்படவில்லை" : "Not specified")}
             </p>
 
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
 
             <p className="text-sm text-slate-400">
               {isTamil ? "வருமான வரம்பு" : "Income Limit"}
             </p>
 
-            <p className="mt-2 text-2xl font-bold">
+            <p className="mt-2 break-words text-xl font-bold sm:text-2xl">
               {scheme.maxIncome
                 ? `₹${Number(
                     scheme.maxIncome
@@ -357,9 +357,9 @@ function SchemeDetails() {
         {/* BENEFITS */}
 
         {scheme.benefits?.length > 0 && (
-          <section className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <section className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 sm:mt-8 sm:p-6">
 
-            <h2 className="text-2xl font-bold">
+            <h2 className="text-xl font-bold sm:text-2xl">
               {isTamil ? "முக்கிய நன்மைகள்" : "Key Benefits"}
             </h2>
 
@@ -372,11 +372,11 @@ function SchemeDetails() {
                   className="flex items-start gap-3 rounded-xl bg-emerald-400/5 p-4"
                 >
 
-                  <span className="text-emerald-400">
+                  <span className="shrink-0 text-emerald-400">
                     ✓
                   </span>
 
-                  <span className="text-slate-300">
+                  <span className="text-sm leading-6 text-slate-300 sm:text-base">
                     {benefit}
                   </span>
 
@@ -396,20 +396,20 @@ function SchemeDetails() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6"
+            className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5 sm:mt-8 sm:p-6"
           >
 
-            <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
 
               <div>
 
-                <h2 className="text-2xl font-bold">
+                <h2 className="text-xl font-bold sm:text-2xl">
                   {isTamil
                     ? "உங்களுக்குத் தேவைப்படக்கூடிய ஆவணங்கள்"
                     : "Documents You May Need"}
                 </h2>
 
-                <p className="mt-2 text-sm text-slate-400">
+                <p className="mt-2 text-sm leading-6 text-slate-400">
                   {isTamil
                     ? "உங்களிடம் ஏற்கனவே உள்ள ஆவணங்களைத் தேர்வு செய்யவும். ஏதேனும் ஆவணம் இல்லை என்றால், அதைப் பெறுவதற்கான கிடைக்கக்கூடிய வழிகளை UdyamSetu காண்பிக்கும்."
                     : "Mark the documents you already have. If you are missing a document, UdyamSetu will show available ways to obtain it."}
@@ -418,7 +418,7 @@ function SchemeDetails() {
               </div>
 
               <div
-                className={`rounded-full px-4 py-2 text-sm font-semibold ${
+                className={`self-start rounded-full px-4 py-2 text-sm font-semibold sm:self-auto ${
                   step1Ready
                     ? "bg-emerald-400/10 text-emerald-400"
                     : "bg-amber-400/10 text-amber-400"
@@ -449,7 +449,7 @@ function SchemeDetails() {
                 return (
                   <div
                     key={index}
-                    className={`rounded-2xl border p-5 transition ${
+                    className={`rounded-2xl border p-4 transition sm:p-5 ${
                       status === "ready"
                         ? "border-emerald-400/30 bg-emerald-400/5"
                         : status === "missing"
@@ -458,21 +458,21 @@ function SchemeDetails() {
                     }`}
                   >
 
-                    <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
 
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-start gap-3">
 
-                        <span className="text-xl">
+                        <span className="shrink-0 text-xl">
                           📄
                         </span>
 
-                        <div>
+                        <div className="min-w-0">
 
-                          <p className="font-semibold">
+                          <p className="break-words font-semibold">
                             {document}
                           </p>
 
-                          <p className="mt-1 text-xs text-slate-500">
+                          <p className="mt-1 text-xs leading-5 text-slate-500">
                             {status === "ready"
                               ? isTamil
                                 ? "இந்த ஆவணம் உங்களிடம் உள்ளது எனக் குறித்துள்ளீர்கள்."
@@ -490,7 +490,7 @@ function SchemeDetails() {
 
                       </div>
 
-                      <div className="flex flex-wrap gap-2">
+                      <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-wrap">
 
                         <button
                           onClick={() =>
@@ -499,7 +499,7 @@ function SchemeDetails() {
                               [index]: "ready",
                             }))
                           }
-                          className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                          className={`rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:text-sm ${
                             status === "ready"
                               ? "bg-emerald-400 text-slate-950"
                               : "bg-white/10 text-slate-300 hover:bg-emerald-400/20"
@@ -518,7 +518,7 @@ function SchemeDetails() {
                               [index]: "missing",
                             }))
                           }
-                          className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                          className={`rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:text-sm ${
                             status === "missing"
                               ? "bg-amber-400 text-slate-950"
                               : "bg-white/10 text-slate-300 hover:bg-amber-400/20"
@@ -555,14 +555,14 @@ function SchemeDetails() {
 
                         {info.online || info.offline ? (
 
-                          <div className="mt-4 flex flex-wrap gap-3">
+                          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
 
                             {info.online && (
                               <a
                                 href={info.onlineUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="rounded-xl bg-cyan-400 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+                                className="w-full rounded-xl bg-cyan-400 px-4 py-3 text-center text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
                               >
                                 🌐 {info.onlineLabel}
                               </a>
@@ -573,7 +573,7 @@ function SchemeDetails() {
                                 href={ESEVAI_MAP_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="rounded-xl bg-emerald-400 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
+                                className="w-full rounded-xl bg-emerald-400 px-4 py-3 text-center text-sm font-semibold text-slate-950 transition hover:bg-emerald-300 sm:w-auto"
                               >
                                 📍{" "}
                                 {isTamil
@@ -598,7 +598,7 @@ function SchemeDetails() {
                               href={ESEVAI_MAP_URL}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="mt-4 inline-block rounded-xl bg-emerald-400 px-4 py-3 text-sm font-semibold text-slate-950 hover:bg-emerald-300"
+                              className="mt-4 inline-block w-full rounded-xl bg-emerald-400 px-4 py-3 text-center text-sm font-semibold text-slate-950 hover:bg-emerald-300 sm:w-auto"
                             >
                               📍{" "}
                               {isTamil
@@ -628,22 +628,22 @@ function SchemeDetails() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-10 overflow-hidden rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-cyan-400/10 via-slate-900 to-emerald-400/10 p-6 md:p-8"
+          className="mt-8 overflow-hidden rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-cyan-400/10 via-slate-900 to-emerald-400/10 p-5 sm:mt-10 sm:p-8"
         >
 
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-400">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-400 sm:text-sm sm:tracking-[0.25em]">
             {isTamil
               ? "UdyamSetu செயல்பாட்டு மையம்"
               : "UdyamSetu Action Center"}
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold">
+          <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
             {isTamil
               ? "அடுத்து என்ன செய்ய வேண்டும்?"
               : "What Should You Do Next?"}
           </h2>
 
-          <p className="mt-3 max-w-2xl leading-7 text-slate-400">
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base">
             {isTamil
               ? "உங்கள் விண்ணப்பத்தைத் தயாரிக்கவும், சரிபார்க்கவும், சமர்ப்பிக்கவும் கீழே உள்ள வழிகாட்டியைப் பின்பற்றவும்."
               : "Follow the guide below to prepare, verify and submit your application."}
@@ -651,9 +651,9 @@ function SchemeDetails() {
 
           {/* READINESS */}
 
-          <div className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-5">
+          <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4 sm:mt-8 sm:p-5">
 
-            <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
 
               <div>
 
@@ -663,7 +663,7 @@ function SchemeDetails() {
                     : "Application Readiness"}
                 </p>
 
-                <p className="mt-1 text-xl font-bold">
+                <p className="mt-1 text-lg font-bold sm:text-xl">
                   {completedSteps} / 4{" "}
                   {isTamil
                     ? "படிகள் முடிந்தன"
@@ -672,7 +672,7 @@ function SchemeDetails() {
 
               </div>
 
-              <div className="rounded-full bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-400">
+              <div className="self-start rounded-full bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-400 sm:self-auto">
                 {Math.round(readinessPercentage)}%
               </div>
 
@@ -724,25 +724,25 @@ function SchemeDetails() {
                     transition={{
                       delay: index * 0.12,
                     }}
-                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                    className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5"
                   >
 
-                    <div className="flex gap-4">
+                    <div className="flex gap-3 sm:gap-4">
 
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-400/10 font-bold text-emerald-400">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-400/10 text-sm font-bold text-emerald-400 sm:h-12 sm:w-12 sm:text-base">
                         {step.number}
                       </div>
 
-                      <div className="flex-1">
+                      <div className="min-w-0 flex-1">
 
-                        <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
 
-                          <h4 className="font-bold">
+                          <h4 className="break-words font-bold">
                             {step.icon} {step.title}
                           </h4>
 
                           <span
-                            className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                            className={`self-start rounded-full px-3 py-1 text-xs font-semibold sm:self-auto ${
                               step.status ===
                                 (isTamil ? "தயார்" : "Ready") ||
                               step.status ===
@@ -788,7 +788,7 @@ function SchemeDetails() {
                               href={ESEVAI_URL}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="mt-3 inline-block rounded-xl bg-cyan-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-300"
+                              className="mt-3 inline-block w-full rounded-xl bg-cyan-400 px-4 py-3 text-center text-sm font-bold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
                             >
                               🌐{" "}
                               {isTamil
@@ -823,7 +823,7 @@ function SchemeDetails() {
                                 href={NSFDC_SCHEME_INFO_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="mt-3 inline-block rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
+                                className="mt-3 inline-block w-full rounded-xl bg-emerald-400 px-4 py-3 text-center text-sm font-bold text-slate-950 transition hover:bg-emerald-300 sm:w-auto"
                               >
                                 🔎{" "}
                                 {isTamil
@@ -850,7 +850,7 @@ function SchemeDetails() {
 
                               <a
                                 href={`tel:${NSFDC_PHONE}`}
-                                className="mt-3 inline-block rounded-xl bg-amber-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-amber-300"
+                                className="mt-3 inline-block w-full rounded-xl bg-amber-400 px-4 py-3 text-center text-sm font-bold text-slate-950 transition hover:bg-amber-300 sm:w-auto"
                               >
                                 📞{" "}
                                 {isTamil
@@ -870,10 +870,10 @@ function SchemeDetails() {
                                     e.target.checked
                                   )
                                 }
-                                className="mt-1 h-4 w-4"
+                                className="mt-1 h-4 w-4 shrink-0"
                               />
 
-                              <span className="text-sm text-slate-300">
+                              <span className="text-sm leading-6 text-slate-300">
                                 {isTamil
                                   ? "சமீபத்திய தகுதி விதிமுறைகளை அதிகாரப்பூர்வ திட்ட அமைப்பிடம் சரிபார்த்துவிட்டேன்."
                                   : "I have checked the latest eligibility rules with the official scheme authority."}
@@ -904,32 +904,36 @@ function SchemeDetails() {
                                   : "NSFDC loan applications are processed through authorized channels. Use the official PM-SURAJ portal for online applications."}
                               </p>
 
-                              <a
-                                href={PM_SURAJ_URL}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() =>
-                                  setChannelConfirmed(true)
-                                }
-                                className="mt-3 inline-block rounded-xl bg-cyan-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-300"
-                              >
-                                🌐{" "}
-                                {isTamil
-                                  ? "PM-SURAJ போர்டலைத் திறக்கவும்"
-                                  : "Open PM-SURAJ Portal"}
-                              </a>
+                              <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
 
-                              <button
-                                onClick={() =>
-                                  navigate("/channel-partners")
-                                }
-                                className="mt-3 ml-2 inline-block rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
-                              >
-                                📍{" "}
-                                {isTamil
-                                  ? "அங்கீகரிக்கப்பட்ட சேனல் பார்ட்னர்களைக் காண்க"
-                                  : "View Authorized Channel Partners"}
-                              </button>
+                                <a
+                                  href={PM_SURAJ_URL}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={() =>
+                                    setChannelConfirmed(true)
+                                  }
+                                  className="w-full rounded-xl bg-cyan-400 px-4 py-3 text-center text-sm font-bold text-slate-950 transition hover:bg-cyan-300 sm:w-auto"
+                                >
+                                  🌐{" "}
+                                  {isTamil
+                                    ? "PM-SURAJ போர்டலைத் திறக்கவும்"
+                                    : "Open PM-SURAJ Portal"}
+                                </a>
+
+                                <button
+                                  onClick={() =>
+                                    navigate("/channel-partners")
+                                  }
+                                  className="w-full rounded-xl bg-emerald-400 px-4 py-3 text-center text-sm font-bold text-slate-950 transition hover:bg-emerald-300 sm:w-auto"
+                                >
+                                  📍{" "}
+                                  {isTamil
+                                    ? "அங்கீகரிக்கப்பட்ட சேனல் பார்ட்னர்களைக் காண்க"
+                                    : "View Authorized Channel Partners"}
+                                </button>
+
+                              </div>
 
                             </div>
 
@@ -943,10 +947,10 @@ function SchemeDetails() {
                                     e.target.checked
                                   )
                                 }
-                                className="mt-1 h-4 w-4"
+                                className="mt-1 h-4 w-4 shrink-0"
                               />
 
-                              <span className="text-sm text-slate-300">
+                              <span className="text-sm leading-6 text-slate-300">
                                 {isTamil
                                   ? "நான் பயன்படுத்தவுள்ள அதிகாரப்பூர்வ விண்ணப்ப வழியை உறுதிப்படுத்தியுள்ளேன்."
                                   : "I have confirmed the official application channel I intend to use."}
@@ -982,7 +986,7 @@ function SchemeDetails() {
                               onClick={() =>
                                 setChannelConfirmed(true)
                               }
-                              className="mt-3 inline-block rounded-xl bg-purple-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-purple-300"
+                              className="mt-3 inline-block w-full rounded-xl bg-purple-400 px-4 py-3 text-center text-sm font-bold text-slate-950 transition hover:bg-purple-300 sm:w-auto"
                             >
                               🚀{" "}
                               {isTamil
@@ -1015,7 +1019,7 @@ function SchemeDetails() {
                 : "Official Application Routes"}
             </h3>
 
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm leading-6 text-slate-400">
               {isTamil
                 ? "உங்கள் விண்ணப்பத்தைச் சமர்ப்பிக்கவும் அல்லது திட்ட தகவல்களைச் சரிபார்க்கவும் அதிகாரப்பூர்வ அரசு சேனல்களை மட்டுமே பயன்படுத்தவும்."
                 : "Use only official government channels to submit your application or verify scheme information."}
@@ -1083,7 +1087,7 @@ function SchemeDetails() {
 
             <div className="mt-4 rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5">
 
-              <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
 
                 <div>
 
@@ -1100,7 +1104,7 @@ function SchemeDetails() {
                       : "Contact NSFDC"}
                   </p>
 
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="mt-1 text-sm leading-6 text-slate-400">
                     {isTamil
                       ? "தகுதி, ஆவணங்கள், கடன் விவரங்கள் மற்றும் விண்ணப்ப நடைமுறைகளைச் சரிபார்க்க அதிகாரப்பூர்வ அமைப்பைத் தொடர்புகொள்ளவும்."
                       : "Contact the official authority to verify eligibility, documents, loan details and application procedures."}
@@ -1110,7 +1114,7 @@ function SchemeDetails() {
 
                 <a
                   href={`tel:${NSFDC_PHONE}`}
-                  className="rounded-xl bg-amber-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-amber-300"
+                  className="w-full rounded-xl bg-amber-400 px-5 py-3 text-center font-bold text-slate-950 transition hover:bg-amber-300 sm:w-auto"
                 >
                   📞 {NSFDC_PHONE}
                 </a>
@@ -1125,7 +1129,7 @@ function SchemeDetails() {
 
         {/* IMPORTANT NOTICE */}
 
-        <section className="mt-8 rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-6">
+        <section className="mt-6 rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-5 sm:mt-8 sm:p-6">
 
           <p className="text-sm font-semibold text-yellow-300">
             ⚠ {isTamil ? "முக்கியமானது" : "Important"}
@@ -1155,7 +1159,7 @@ function SchemeDetails() {
 
         <button
           onClick={() => navigate("/schemes")}
-          className="mt-8 rounded-xl bg-emerald-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-emerald-300"
+          className="mt-6 w-full rounded-xl bg-emerald-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-emerald-300 sm:mt-8 sm:w-auto"
         >
           {isTamil
             ? "← பரிந்துரைகளுக்குத் திரும்பவும்"

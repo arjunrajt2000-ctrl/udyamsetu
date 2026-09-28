@@ -15,7 +15,7 @@ function Home() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-slate-950 text-white">
+    <main className="min-h-screen overflow-x-hidden bg-slate-950 text-white">
 
       {/* Animated Background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -31,7 +31,7 @@ function Home() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute left-[5%] top-[10%] h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl"
+          className="absolute left-[0%] top-[8%] h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl sm:left-[5%] sm:h-96 sm:w-96 sm:top-[10%]"
         />
 
         <motion.div
@@ -45,7 +45,7 @@ function Home() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute right-[5%] top-[30%] h-96 w-96 rounded-full bg-cyan-400/20 blur-3xl"
+          className="absolute right-[-10%] top-[30%] h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl sm:right-[5%] sm:h-96 sm:w-96"
         />
 
       </div>
@@ -53,15 +53,15 @@ function Home() {
       {/* Background Glow */}
       <div className="pointer-events-none fixed inset-0">
 
-        <div className="absolute left-1/4 top-1/4 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
+        <div className="absolute left-1/4 top-1/4 h-56 w-56 rounded-full bg-emerald-500/10 blur-3xl sm:h-72 sm:w-72" />
 
-        <div className="absolute bottom-1/4 right-1/4 h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl sm:h-80 sm:w-80" />
 
       </div>
 
 
       {/* Navigation */}
-      <nav className="relative z-20 mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6">
+      <nav className="relative z-20 mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6">
 
         <div className="flex items-center justify-between">
 
@@ -71,7 +71,7 @@ function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             onClick={() => navigate("/")}
-            className="text-xl font-bold"
+            className="text-lg font-bold sm:text-xl"
           >
             <span className="text-emerald-400">Udyam</span>Setu
           </motion.button>
@@ -82,7 +82,7 @@ function Home() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="hidden items-center gap-5 text-sm text-slate-300 md:flex"
+            className="hidden items-center gap-4 text-sm text-slate-300 md:flex lg:gap-5"
           >
 
             <button
@@ -147,7 +147,7 @@ function Home() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate("/loan-calculator")}
-              className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-semibold text-emerald-300 transition hover:border-emerald-400/60 hover:bg-emerald-400/20 hover:text-emerald-200"
+              className="whitespace-nowrap rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-semibold text-emerald-300 transition hover:border-emerald-400/60 hover:bg-emerald-400/20 hover:text-emerald-200"
             >
               {t.nav.emi}
             </motion.button>
@@ -158,8 +158,9 @@ function Home() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-2xl text-emerald-300 transition hover:bg-emerald-400/20 md:hidden"
+            className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-2xl leading-none text-emerald-300 transition hover:bg-emerald-400/20 md:hidden"
             aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? "✕" : "☰"}
           </button>
@@ -258,13 +259,13 @@ function Home() {
         className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6"
       >
 
-        <div className="flex items-start gap-3 rounded-xl border border-yellow-400/20 bg-yellow-400/5 px-4 py-3.5 text-sm sm:px-5">
+        <div className="flex items-start gap-3 rounded-xl border border-yellow-400/20 bg-yellow-400/5 px-3 py-3 text-xs sm:px-5 sm:py-3.5 sm:text-sm">
 
           <span className="mt-0.5 shrink-0 text-yellow-300">
             ⚠
           </span>
 
-          <p className="leading-6 text-slate-300">
+          <p className="min-w-0 leading-5 text-slate-300 sm:leading-6">
 
             <span className="font-semibold text-yellow-300">
               {t.home.prototypeTitle}
@@ -280,7 +281,7 @@ function Home() {
 
 
       {/* Hero Section */}
-      <section className="relative z-10 mx-auto flex min-h-[85vh] max-w-7xl items-center px-4 py-16 sm:px-6 sm:py-20">
+      <section className="relative z-10 mx-auto flex min-h-[70vh] max-w-7xl items-center px-4 py-14 sm:min-h-[80vh] sm:px-6 sm:py-20 lg:min-h-[85vh]">
 
         <div className="w-full max-w-4xl">
 
@@ -291,7 +292,7 @@ function Home() {
             transition={{ duration: 0.6 }}
           >
 
-            <span className="inline-flex rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-300">
+            <span className="inline-flex max-w-full rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-2 text-xs font-medium leading-5 text-emerald-300 sm:px-4 sm:text-sm">
               {t.home.badge}
             </span>
 
@@ -303,11 +304,11 @@ function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15 }}
-            className={`mt-7 font-bold leading-tight tracking-tight ${
-  language === "ta"
-    ? "text-3xl sm:text-4xl md:text-6xl"
-    : "text-4xl sm:text-5xl md:text-7xl"
-}`}
+            className={`mt-6 max-w-4xl font-bold tracking-tight ${
+              language === "ta"
+                ? "text-3xl leading-[1.25] sm:text-4xl sm:leading-tight md:text-6xl"
+                : "text-4xl leading-[1.1] sm:text-5xl md:text-7xl"
+            }`}
           >
 
             {t.home.title1}{" "}
@@ -324,7 +325,7 @@ function Home() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-7 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8"
+            className="mt-6 max-w-2xl text-sm leading-6 text-slate-300 sm:mt-7 sm:text-lg sm:leading-8"
           >
             {t.home.description}
           </motion.p>
@@ -335,7 +336,7 @@ function Home() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.45 }}
-            className="mt-9 flex flex-col gap-4 sm:flex-row"
+            className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:gap-4"
           >
 
             {/* Check Eligibility */}
@@ -343,7 +344,7 @@ function Home() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate("/assessment")}
-              className="w-full rounded-xl bg-emerald-500 px-7 py-3.5 font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400 sm:w-auto"
+              className="w-full rounded-xl bg-emerald-500 px-6 py-3.5 font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400 sm:w-auto sm:px-7"
             >
               {t.home.eligibility} →
             </motion.button>
@@ -354,7 +355,7 @@ function Home() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate("/schemes")}
-              className="w-full rounded-xl border border-slate-700 bg-slate-900/50 px-7 py-3.5 font-semibold text-white backdrop-blur transition hover:border-slate-500 hover:bg-slate-900 sm:w-auto"
+              className="w-full rounded-xl border border-slate-700 bg-slate-900/50 px-6 py-3.5 font-semibold text-white backdrop-blur transition hover:border-slate-500 hover:bg-slate-900 sm:w-auto sm:px-7"
             >
               {t.home.explore}
             </motion.button>
@@ -367,7 +368,7 @@ function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="mt-14 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-400"
+            className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-xs text-slate-400 sm:mt-14 sm:gap-x-8 sm:text-sm"
           >
 
             <span>✓ {t.home.feature1}</span>
