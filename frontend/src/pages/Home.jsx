@@ -1,10 +1,13 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { useLanguage } from "../i18n/LanguageContext"
 
 function Home() {
   const navigate = useNavigate()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const { language, changeLanguage, t } = useLanguage()
 
   const mobileNavigate = (path) => {
     setMobileMenuOpen(false)
@@ -47,7 +50,6 @@ function Home() {
 
       </div>
 
-
       {/* Background Glow */}
       <div className="pointer-events-none fixed inset-0">
 
@@ -59,7 +61,7 @@ function Home() {
 
 
       {/* Navigation */}
-      <nav className="relative z-20 mx-auto max-w-7xl px-6 py-6">
+      <nav className="relative z-20 mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6">
 
         <div className="flex items-center justify-between">
 
@@ -75,42 +77,70 @@ function Home() {
           </motion.button>
 
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="hidden items-center gap-6 text-sm text-slate-300 md:flex"
+            className="hidden items-center gap-5 text-sm text-slate-300 md:flex"
           >
 
             <button
               onClick={() => navigate("/")}
               className="transition hover:text-white"
             >
-              Home
+              {t.nav.home}
             </button>
 
             <button
               onClick={() => navigate("/schemes")}
               className="transition hover:text-white"
             >
-              Schemes
+              {t.nav.schemes}
             </button>
 
             <button
               onClick={() => navigate("/channel-partners")}
               className="transition hover:text-white"
             >
-              Partners
+              {t.nav.partners}
             </button>
 
-            {/* ABOUT */}
             <button
               onClick={() => navigate("/about")}
               className="transition hover:text-white"
             >
-              About
+              {t.nav.about}
             </button>
+
+
+            {/* Language Toggle */}
+            <div className="flex items-center rounded-xl border border-slate-700 bg-slate-900/70 p-1">
+
+              <button
+                onClick={() => changeLanguage("en")}
+                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+                  language === "en"
+                    ? "bg-emerald-500 text-slate-950"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                EN
+              </button>
+
+              <button
+                onClick={() => changeLanguage("ta")}
+                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+                  language === "ta"
+                    ? "bg-emerald-500 text-slate-950"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                தமிழ்
+              </button>
+
+            </div>
+
 
             {/* EMI Calculator */}
             <motion.button
@@ -119,7 +149,7 @@ function Home() {
               onClick={() => navigate("/loan-calculator")}
               className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 font-semibold text-emerald-300 transition hover:border-emerald-400/60 hover:bg-emerald-400/20 hover:text-emerald-200"
             >
-              EMI Calculator
+              {t.nav.emi}
             </motion.button>
 
           </motion.div>
@@ -152,35 +182,65 @@ function Home() {
                 onClick={() => mobileNavigate("/")}
                 className="w-full rounded-xl px-4 py-3 text-left font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
               >
-                Home
+                {t.nav.home}
               </button>
 
               <button
                 onClick={() => mobileNavigate("/schemes")}
                 className="w-full rounded-xl px-4 py-3 text-left font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
               >
-                Schemes
+                {t.nav.schemes}
               </button>
 
               <button
                 onClick={() => mobileNavigate("/channel-partners")}
                 className="w-full rounded-xl px-4 py-3 text-left font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
               >
-                Partners
+                {t.nav.partners}
               </button>
 
               <button
                 onClick={() => mobileNavigate("/about")}
                 className="w-full rounded-xl px-4 py-3 text-left font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
               >
-                About
+                {t.nav.about}
               </button>
 
+
+              {/* Mobile Language Toggle */}
+              <div className="mt-2 flex gap-2 rounded-xl border border-slate-700 bg-slate-950/50 p-1">
+
+                <button
+                  onClick={() => changeLanguage("en")}
+                  className={`flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition ${
+                    language === "en"
+                      ? "bg-emerald-500 text-slate-950"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  English
+                </button>
+
+                <button
+                  onClick={() => changeLanguage("ta")}
+                  className={`flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition ${
+                    language === "ta"
+                      ? "bg-emerald-500 text-slate-950"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  தமிழ்
+                </button>
+
+              </div>
+
+
+              {/* Mobile EMI */}
               <button
                 onClick={() => mobileNavigate("/loan-calculator")}
-                className="mt-1 w-full rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-left font-semibold text-emerald-300 transition hover:border-emerald-400/60 hover:bg-emerald-400/20"
+                className="mt-2 w-full rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-left font-semibold text-emerald-300 transition hover:border-emerald-400/60 hover:bg-emerald-400/20"
               >
-                🧮 EMI Calculator
+                🧮 {t.nav.emi}
               </button>
 
             </motion.div>
@@ -190,31 +250,27 @@ function Home() {
       </nav>
 
 
-      {/* PROTOTYPE NOTICE BAR */}
+      {/* Prototype Notice */}
       <motion.div
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="relative z-10 mx-auto max-w-7xl px-6"
+        className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6"
       >
 
-        <div className="flex items-start gap-3 rounded-xl border border-yellow-400/20 bg-yellow-400/5 px-5 py-3.5 text-sm">
+        <div className="flex items-start gap-3 rounded-xl border border-yellow-400/20 bg-yellow-400/5 px-4 py-3.5 text-sm sm:px-5">
 
-          <span className="mt-0.5 text-yellow-300">
+          <span className="mt-0.5 shrink-0 text-yellow-300">
             ⚠
           </span>
 
           <p className="leading-6 text-slate-300">
 
             <span className="font-semibold text-yellow-300">
-              Prototype Notice:
+              {t.home.prototypeTitle}
             </span>{" "}
 
-            UdyamSetu is currently a prototype with limited features
-            and a limited set of government schemes. Information,
-            eligibility, loan amounts, interest rates and application
-            procedures should be verified with the official scheme
-            authority before applying.
+            {t.home.prototypeText}
 
           </p>
 
@@ -224,9 +280,9 @@ function Home() {
 
 
       {/* Hero Section */}
-      <section className="relative z-10 mx-auto flex min-h-[85vh] max-w-7xl items-center px-6 py-20">
+      <section className="relative z-10 mx-auto flex min-h-[85vh] max-w-7xl items-center px-4 py-16 sm:px-6 sm:py-20">
 
-        <div className="max-w-4xl">
+        <div className="w-full max-w-4xl">
 
           {/* Badge */}
           <motion.div
@@ -236,7 +292,7 @@ function Home() {
           >
 
             <span className="inline-flex rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-300">
-              Smart Financial Assistance Platform
+              {t.home.badge}
             </span>
 
           </motion.div>
@@ -247,16 +303,18 @@ function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15 }}
-            className="mt-7 text-5xl font-bold leading-tight tracking-tight sm:text-6xl md:text-7xl"
+            className={`mt-7 font-bold leading-tight tracking-tight ${
+  language === "ta"
+    ? "text-3xl sm:text-4xl md:text-6xl"
+    : "text-4xl sm:text-5xl md:text-7xl"
+}`}
           >
 
-            Find the{" "}
+            {t.home.title1}{" "}
 
             <span className="text-emerald-400">
-              right financial support
-            </span>{" "}
-
-            for your journey.
+              {t.home.title2}
+            </span>
 
           </motion.h1>
 
@@ -266,11 +324,9 @@ function Home() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-7 max-w-2xl text-lg leading-8 text-slate-300"
+            className="mt-7 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8"
           >
-            UdyamSetu helps you discover relevant government financial
-            assistance, understand your eligibility, compare schemes, and
-            connect with authorized Channel Partners.
+            {t.home.description}
           </motion.p>
 
 
@@ -287,9 +343,9 @@ function Home() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate("/assessment")}
-              className="rounded-xl bg-emerald-500 px-7 py-3.5 font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400"
+              className="w-full rounded-xl bg-emerald-500 px-7 py-3.5 font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400 sm:w-auto"
             >
-              Check My Eligibility →
+              {t.home.eligibility} →
             </motion.button>
 
 
@@ -298,9 +354,9 @@ function Home() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate("/schemes")}
-              className="rounded-xl border border-slate-700 bg-slate-900/50 px-7 py-3.5 font-semibold text-white backdrop-blur transition hover:border-slate-500 hover:bg-slate-900"
+              className="w-full rounded-xl border border-slate-700 bg-slate-900/50 px-7 py-3.5 font-semibold text-white backdrop-blur transition hover:border-slate-500 hover:bg-slate-900 sm:w-auto"
             >
-              Explore Schemes
+              {t.home.explore}
             </motion.button>
 
           </motion.div>
@@ -314,11 +370,11 @@ function Home() {
             className="mt-14 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-400"
           >
 
-            <span>✓ Eligibility guidance</span>
+            <span>✓ {t.home.feature1}</span>
 
-            <span>✓ Smart scheme matching</span>
+            <span>✓ {t.home.feature2}</span>
 
-            <span>✓ Authorized partners</span>
+            <span>✓ {t.home.feature3}</span>
 
           </motion.div>
 

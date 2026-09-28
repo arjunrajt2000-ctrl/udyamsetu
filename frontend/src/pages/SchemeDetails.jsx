@@ -1,30 +1,28 @@
 import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useLanguage } from "../i18n/LanguageContext";
 
 const ESEVAI_URL = "https://www.tnesevai.tn.gov.in/citizen/";
 const ESEVAI_MAP_URL =
   "https://www.google.com/maps/search/e-Sevai+Centre+near+me";
 
-// Official NSFDC website
 const NSFDC_URL = "https://nsfdc.nic.in/";
-
-// Official NSFDC eligibility / scheme information
 const NSFDC_SCHEME_INFO_URL = "https://nsfdc.nic.in/scheme";
-
-// Official NSFDC toll-free helpline
 const NSFDC_PHONE = "1800110396";
 
-// Official PM-SURAJ portal
 const PM_SURAJ_URL = "https://pmsuraj.dosje.gov.in/login";
 
-const getDocumentInfo = (documentName) => {
+function getDocumentInfo(documentName, language) {
   const name = String(documentName || "").toLowerCase();
 
   if (name.includes("community") || name.includes("caste")) {
     return {
       online: true,
-      onlineLabel: "Apply Community Certificate",
+      onlineLabel:
+        language === "ta"
+          ? "சமூகச் சான்றிதழுக்கு விண்ணப்பிக்கவும்"
+          : "Apply for Community Certificate",
       onlineUrl: ESEVAI_URL,
       offline: true,
     };
@@ -33,7 +31,10 @@ const getDocumentInfo = (documentName) => {
   if (name.includes("income")) {
     return {
       online: true,
-      onlineLabel: "Apply Income Certificate",
+      onlineLabel:
+        language === "ta"
+          ? "வருமானச் சான்றிதழுக்கு விண்ணப்பிக்கவும்"
+          : "Apply for Income Certificate",
       onlineUrl: ESEVAI_URL,
       offline: true,
     };
@@ -42,7 +43,10 @@ const getDocumentInfo = (documentName) => {
   if (name.includes("obc")) {
     return {
       online: true,
-      onlineLabel: "Apply OBC Certificate",
+      onlineLabel:
+        language === "ta"
+          ? "OBC சான்றிதழுக்கு விண்ணப்பிக்கவும்"
+          : "Apply for OBC Certificate",
       onlineUrl: ESEVAI_URL,
       offline: true,
     };
@@ -51,7 +55,10 @@ const getDocumentInfo = (documentName) => {
   if (name.includes("residence") || name.includes("address")) {
     return {
       online: true,
-      onlineLabel: "Open e-Sevai",
+      onlineLabel:
+        language === "ta"
+          ? "e-Sevai திறக்கவும்"
+          : "Open e-Sevai",
       onlineUrl: ESEVAI_URL,
       offline: true,
     };
@@ -61,11 +68,13 @@ const getDocumentInfo = (documentName) => {
     online: false,
     offline: false,
   };
-};
+}
 
 function SchemeDetails() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { language } = useLanguage();
 
   const scheme = location.state?.scheme;
 
@@ -73,24 +82,30 @@ function SchemeDetails() {
   const [eligibilityVerified, setEligibilityVerified] = useState(false);
   const [channelConfirmed, setChannelConfirmed] = useState(false);
 
+  const isTamil = language === "ta";
+
   if (!scheme) {
     return (
       <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
         <div className="mx-auto max-w-3xl text-center">
 
           <h1 className="text-3xl font-bold">
-            Scheme not found
+            {isTamil ? "திட்டம் கிடைக்கவில்லை" : "Scheme Not Found"}
           </h1>
 
           <p className="mt-3 text-slate-400">
-            We couldn't find the selected scheme.
+            {isTamil
+              ? "தேர்வு செய்யப்பட்ட திட்டத்தைக் கண்டறிய முடியவில்லை."
+              : "The selected scheme could not be found."}
           </p>
 
           <button
             onClick={() => navigate("/schemes")}
             className="mt-6 rounded-xl bg-emerald-400 px-6 py-3 font-semibold text-slate-950 hover:bg-emerald-300"
           >
-            ← Back to Schemes
+            {isTamil
+              ? "← திட்டங்களுக்குத் திரும்பவும்"
+              : "← Back to Schemes"}
           </button>
 
         </div>
@@ -110,7 +125,6 @@ function SchemeDetails() {
   const step2Ready = eligibilityVerified;
   const step3Ready = channelConfirmed;
 
-  // Submission cannot be automatically verified by UdyamSetu.
   const step4Ready = false;
 
   const completedSteps = [
@@ -120,44 +134,85 @@ function SchemeDetails() {
     step4Ready,
   ].filter(Boolean).length;
 
-  const readinessPercentage =
-    (completedSteps / 4) * 100;
+  const readinessPercentage = (completedSteps / 4) * 100;
 
   const applicationSteps = [
     {
       number: "01",
-      title: "Prepare your documents",
+      title: isTamil
+        ? "உங்கள் ஆவணங்களைத் தயாரிக்கவும்"
+        : "Prepare Your Documents",
       description: step1Ready
-        ? "All recommended documents have been marked as available."
-        : "Review the documents below and mark any document you are missing.",
+        ? isTamil
+          ? "பரிந்துரைக்கப்பட்ட அனைத்து ஆவணங்களும் உங்களிடம் இருப்பதாக குறிக்கப்பட்டுள்ளன."
+          : "You have marked all recommended documents as ready."
+        : isTamil
+        ? "கீழே கொடுக்கப்பட்டுள்ள ஆவணங்களைப் பார்த்து, உங்களிடம் இல்லாத ஆவணங்களை அடையாளப்படுத்தவும்."
+        : "Review the documents below and identify any documents you do not have.",
       icon: "📄",
-      status: step1Ready ? "Ready" : "Action needed",
+      status: step1Ready
+        ? isTamil
+          ? "தயார்"
+          : "Ready"
+        : isTamil
+        ? "நடவடிக்கை தேவை"
+        : "Action Required",
     },
+
     {
       number: "02",
-      title: "Verify eligibility",
+      title: isTamil
+        ? "தகுதியைச் சரிபார்க்கவும்"
+        : "Verify Eligibility",
       description: eligibilityVerified
-        ? "You confirmed that you checked the latest eligibility information."
-        : "Check the latest eligibility requirements with the official scheme authority before applying.",
+        ? isTamil
+          ? "சமீபத்திய தகுதி விவரங்களை அதிகாரப்பூர்வ திட்ட அமைப்பிடம் சரிபார்த்துவிட்டதாக நீங்கள் உறுதிப்படுத்தியுள்ளீர்கள்."
+          : "You have confirmed that you checked the latest eligibility details with the official scheme authority."
+        : isTamil
+        ? "விண்ணப்பிக்கும் முன் அதிகாரப்பூர்வ திட்ட அமைப்பிடம் சமீபத்திய தகுதி விதிமுறைகளை சரிபார்க்கவும்."
+        : "Check the latest eligibility rules with the official scheme authority before applying.",
       icon: "✓",
-      status: eligibilityVerified ? "Verified" : "Verify",
+      status: eligibilityVerified
+        ? isTamil
+          ? "சரிபார்க்கப்பட்டது"
+          : "Verified"
+        : isTamil
+        ? "சரிபார்க்கவும்"
+        : "Verify",
     },
+
     {
       number: "03",
-      title: "Confirm application channel",
+      title: isTamil
+        ? "விண்ணப்ப சேனலை உறுதிப்படுத்தவும்"
+        : "Confirm Application Channel",
       description: channelConfirmed
-        ? "You confirmed the official application route you intend to use."
-        : "Confirm which official application route you will use to submit your application.",
+        ? isTamil
+          ? "நீங்கள் பயன்படுத்தவுள்ள அதிகாரப்பூர்வ விண்ணப்ப வழியை உறுதிப்படுத்தியுள்ளீர்கள்."
+          : "You have confirmed the official application channel you intend to use."
+        : isTamil
+        ? "உங்கள் விண்ணப்பத்தை சமர்ப்பிக்கப் பயன்படுத்தும் அதிகாரப்பூர்வ வழியை உறுதிப்படுத்தவும்."
+        : "Confirm the official channel you will use to submit your application.",
       icon: "📍",
-      status: channelConfirmed ? "Confirmed" : "Next",
+      status: channelConfirmed
+        ? isTamil
+          ? "உறுதிப்படுத்தப்பட்டது"
+          : "Confirmed"
+        : isTamil
+        ? "அடுத்து"
+        : "Next",
     },
+
     {
       number: "04",
-      title: "Submit your application",
-      description:
-        "Submit your documents and application through the official channel.",
+      title: isTamil
+        ? "விண்ணப்பத்தைச் சமர்ப்பிக்கவும்"
+        : "Submit Your Application",
+      description: isTamil
+        ? "அதிகாரப்பூர்வ சேனல் மூலம் உங்கள் ஆவணங்கள் மற்றும் விண்ணப்பத்தைச் சமர்ப்பிக்கவும்."
+        : "Submit your application and documents through the official channel.",
       icon: "🚀",
-      status: "Final Step",
+      status: isTamil ? "இறுதி படி" : "Final Step",
     },
   ];
 
@@ -167,60 +222,66 @@ function SchemeDetails() {
       <div className="mx-auto max-w-5xl">
 
         {/* BACK */}
+
         <button
           onClick={() => navigate("/schemes")}
           className="mb-8 text-sm text-slate-400 transition hover:text-white"
         >
-          ← Back to recommendations
+          {isTamil
+            ? "← பரிந்துரைகளுக்குத் திரும்பவும்"
+            : "← Back to Recommendations"}
         </button>
 
-
         {/* HERO */}
-<motion.div
-  initial={{ opacity: 0, y: -30 }}
-  animate={{ opacity: 1, y: 0 }}
-  className="relative rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-8"
->
 
-  {/* EMI Calculator Shortcut */}
-  <button
-    onClick={() => navigate("/loan-calculator")}
-    className="static mb-6 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2.5 text-sm font-semibold text-cyan-300 transition hover:border-cyan-400/60 hover:bg-cyan-400/20 hover:text-cyan-200 md:absolute md:right-6 md:top-6 md:mb-0"
-  >
-    🧮 EMI Calculator
-  </button>
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative rounded-3xl border border-emerald-400/20 bg-emerald-400/5 p-8"
+        >
 
-  <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-400">
-    UdyamSetu Scheme Details
-  </p>
+          <button
+            onClick={() => navigate("/loan-calculator")}
+            className="static mb-6 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-2.5 text-sm font-semibold text-cyan-300 transition hover:border-cyan-400/60 hover:bg-cyan-400/20 hover:text-cyan-200 md:absolute md:right-6 md:top-6 md:mb-0"
+          >
+            🧮 {isTamil ? "EMI கணிப்பான்" : "EMI Calculator"}
+          </button>
 
-  <h1 className="mt-3 pr-0 text-4xl font-bold md:pr-40 md:text-5xl">
-    {scheme.name}
-  </h1>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-400">
+            {isTamil
+              ? "UdyamSetu திட்ட விவரங்கள்"
+              : "UdyamSetu Scheme Details"}
+          </p>
 
-  <p className="mt-4 text-slate-300">
-    {scheme.provider ||
-      "Government Financial Assistance Scheme"}
-  </p>
+          <h1 className="mt-3 pr-0 text-4xl font-bold md:pr-40 md:text-5xl">
+            {scheme.name}
+          </h1>
 
-  {scheme.matchScore && (
-    <div className="mt-6 inline-flex items-center gap-3 rounded-full bg-emerald-400/10 px-5 py-2">
+          <p className="mt-4 text-slate-300">
+            {scheme.provider ||
+              (isTamil
+                ? "அரசு நிதியுதவி திட்டம்"
+                : "Government Financial Assistance Scheme")}
+          </p>
 
-      <span className="text-sm text-slate-300">
-        Profile Match
-      </span>
+          {scheme.matchScore && (
+            <div className="mt-6 inline-flex items-center gap-3 rounded-full bg-emerald-400/10 px-5 py-2">
 
-      <span className="font-bold text-emerald-400">
-        {scheme.matchScore}%
-      </span>
+              <span className="text-sm text-slate-300">
+                {isTamil ? "சுயவிவரப் பொருத்தம்" : "Profile Match"}
+              </span>
 
-    </div>
-  )}
+              <span className="font-bold text-emerald-400">
+                {scheme.matchScore}%
+              </span>
 
-</motion.div>
+            </div>
+          )}
 
+        </motion.div>
 
         {/* ABOUT */}
+
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -229,7 +290,7 @@ function SchemeDetails() {
         >
 
           <h2 className="text-2xl font-bold">
-            About the Scheme
+            {isTamil ? "திட்டத்தைப் பற்றி" : "About the Scheme"}
           </h2>
 
           <p className="mt-4 leading-7 text-slate-300">
@@ -238,14 +299,14 @@ function SchemeDetails() {
 
         </motion.section>
 
-
         {/* KEY INFORMATION */}
+
         <section className="mt-8 grid gap-5 md:grid-cols-3">
 
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
 
             <p className="text-sm text-slate-400">
-              Maximum Assistance
+              {isTamil ? "அதிகபட்ச நிதியுதவி" : "Maximum Funding"}
             </p>
 
             <p className="mt-2 text-2xl font-bold text-emerald-400">
@@ -253,29 +314,30 @@ function SchemeDetails() {
                 ? `₹${Number(
                     scheme.maxAmount
                   ).toLocaleString("en-IN")}`
+                : isTamil
+                ? "அதிகாரப்பூர்வ விவரங்களைப் பார்க்கவும்"
                 : "See official details"}
             </p>
 
           </div>
 
-
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
 
             <p className="text-sm text-slate-400">
-              Interest Rate
+              {isTamil ? "வட்டி விகிதம்" : "Interest Rate"}
             </p>
 
             <p className="mt-2 text-2xl font-bold">
-              {scheme.interestRate || "Not specified"}
+              {scheme.interestRate ||
+                (isTamil ? "குறிப்பிடப்படவில்லை" : "Not specified")}
             </p>
 
           </div>
 
-
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
 
             <p className="text-sm text-slate-400">
-              Income Limit
+              {isTamil ? "வருமான வரம்பு" : "Income Limit"}
             </p>
 
             <p className="mt-2 text-2xl font-bold">
@@ -283,6 +345,8 @@ function SchemeDetails() {
                 ? `₹${Number(
                     scheme.maxIncome
                   ).toLocaleString("en-IN")}`
+                : isTamil
+                ? "குறிப்பிடப்படவில்லை"
                 : "Not specified"}
             </p>
 
@@ -290,47 +354,42 @@ function SchemeDetails() {
 
         </section>
 
-
         {/* BENEFITS */}
+
         {scheme.benefits?.length > 0 && (
           <section className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
 
             <h2 className="text-2xl font-bold">
-              Key Benefits
+              {isTamil ? "முக்கிய நன்மைகள்" : "Key Benefits"}
             </h2>
 
             <div className="mt-5 grid gap-3">
 
-              {scheme.benefits.map(
-                (benefit, index) => (
+              {scheme.benefits.map((benefit, index) => (
 
-                  <div
-                    key={index}
-                    className="flex items-start gap-3 rounded-xl bg-emerald-400/5 p-4"
-                  >
+                <div
+                  key={index}
+                  className="flex items-start gap-3 rounded-xl bg-emerald-400/5 p-4"
+                >
 
-                    <span className="text-emerald-400">
-                      ✓
-                    </span>
+                  <span className="text-emerald-400">
+                    ✓
+                  </span>
 
-                    <span className="text-slate-300">
-                      {benefit}
-                    </span>
+                  <span className="text-slate-300">
+                    {benefit}
+                  </span>
 
-                  </div>
+                </div>
 
-                )
-              )}
+              ))}
 
             </div>
 
           </section>
         )}
 
-
-        {/* =========================================
-            DOCUMENT CHECKLIST
-        ========================================== */}
+        {/* DOCUMENT CHECKLIST */}
 
         {documents.length > 0 && (
           <motion.section
@@ -345,13 +404,15 @@ function SchemeDetails() {
               <div>
 
                 <h2 className="text-2xl font-bold">
-                  Documents You May Need
+                  {isTamil
+                    ? "உங்களுக்குத் தேவைப்படக்கூடிய ஆவணங்கள்"
+                    : "Documents You May Need"}
                 </h2>
 
                 <p className="mt-2 text-sm text-slate-400">
-                  Check the documents you already have. If you are
-                  missing one, UdyamSetu will show available ways to
-                  obtain it.
+                  {isTamil
+                    ? "உங்களிடம் ஏற்கனவே உள்ள ஆவணங்களைத் தேர்வு செய்யவும். ஏதேனும் ஆவணம் இல்லை என்றால், அதைப் பெறுவதற்கான கிடைக்கக்கூடிய வழிகளை UdyamSetu காண்பிக்கும்."
+                    : "Mark the documents you already have. If you are missing a document, UdyamSetu will show available ways to obtain it."}
                 </p>
 
               </div>
@@ -363,15 +424,17 @@ function SchemeDetails() {
                     : "bg-amber-400/10 text-amber-400"
                 }`}
               >
-                {documents.filter(
-                  (_, index) =>
-                    documentStatus[index] === "ready"
-                ).length}{" "}
-                / {documents.length} ready
+                {
+                  documents.filter(
+                    (_, index) =>
+                      documentStatus[index] === "ready"
+                  ).length
+                }{" "}
+                / {documents.length}{" "}
+                {isTamil ? "தயார்" : "Ready"}
               </div>
 
             </div>
-
 
             <div className="mt-6 space-y-4">
 
@@ -381,7 +444,7 @@ function SchemeDetails() {
                   documentStatus[index] || "unknown";
 
                 const info =
-                  getDocumentInfo(document);
+                  getDocumentInfo(document, language);
 
                 return (
                   <div
@@ -411,16 +474,21 @@ function SchemeDetails() {
 
                           <p className="mt-1 text-xs text-slate-500">
                             {status === "ready"
-                              ? "You marked this document as available."
+                              ? isTamil
+                                ? "இந்த ஆவணம் உங்களிடம் உள்ளது எனக் குறித்துள்ளீர்கள்."
+                                : "You have marked this document as available."
                               : status === "missing"
-                              ? "You marked this document as missing."
-                              : "Have you got this document?"}
+                              ? isTamil
+                                ? "இந்த ஆவணம் உங்களிடம் இல்லை எனக் குறித்துள்ளீர்கள்."
+                                : "You have marked this document as missing."
+                              : isTamil
+                              ? "இந்த ஆவணம் உங்களிடம் உள்ளதா?"
+                              : "Do you have this document?"}
                           </p>
 
                         </div>
 
                       </div>
-
 
                       <div className="flex flex-wrap gap-2">
 
@@ -437,9 +505,11 @@ function SchemeDetails() {
                               : "bg-white/10 text-slate-300 hover:bg-emerald-400/20"
                           }`}
                         >
-                          ✓ I have it
+                          ✓{" "}
+                          {isTamil
+                            ? "என்னிடம் உள்ளது"
+                            : "I Have It"}
                         </button>
-
 
                         <button
                           onClick={() =>
@@ -454,15 +524,16 @@ function SchemeDetails() {
                               : "bg-white/10 text-slate-300 hover:bg-amber-400/20"
                           }`}
                         >
-                          ⚠ I'm missing it
+                          ⚠{" "}
+                          {isTamil
+                            ? "என்னிடம் இல்லை"
+                            : "I Don't Have It"}
                         </button>
 
                       </div>
 
                     </div>
 
-
-                    {/* MISSING DOCUMENT ACTIONS */}
                     {status === "missing" && (
                       <motion.div
                         initial={{
@@ -477,9 +548,10 @@ function SchemeDetails() {
                       >
 
                         <p className="text-sm font-semibold text-amber-300">
-                          How can I get this document?
+                          {isTamil
+                            ? "இந்த ஆவணத்தை எவ்வாறு பெறுவது?"
+                            : "How can you obtain this document?"}
                         </p>
-
 
                         {info.online || info.offline ? (
 
@@ -496,7 +568,6 @@ function SchemeDetails() {
                               </a>
                             )}
 
-
                             {info.offline && (
                               <a
                                 href={ESEVAI_MAP_URL}
@@ -504,7 +575,10 @@ function SchemeDetails() {
                                 rel="noopener noreferrer"
                                 className="rounded-xl bg-emerald-400 px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-300"
                               >
-                                📍 Find e-Sevai Centre
+                                📍{" "}
+                                {isTamil
+                                  ? "e-Sevai மையத்தைக் கண்டறியவும்"
+                                  : "Find an e-Sevai Centre"}
                               </a>
                             )}
 
@@ -515,10 +589,9 @@ function SchemeDetails() {
                           <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
 
                             <p className="text-sm leading-6 text-slate-400">
-                              We have not verified an official
-                              Tamil Nadu e-Sevai service for this
-                              document. UdyamSetu will not provide
-                              an unverified application link.
+                              {isTamil
+                                ? "இந்த ஆவணத்திற்கான அதிகாரப்பூர்வ தமிழ்நாடு e-Sevai சேவையை நாங்கள் சரிபார்க்கவில்லை. சரிபார்க்கப்படாத விண்ணப்ப இணைப்பை UdyamSetu வழங்காது."
+                                : "We have not verified an official Tamil Nadu e-Sevai service for this document. UdyamSetu does not provide unverified application links."}
                             </p>
 
                             <a
@@ -527,7 +600,10 @@ function SchemeDetails() {
                               rel="noopener noreferrer"
                               className="mt-4 inline-block rounded-xl bg-emerald-400 px-4 py-3 text-sm font-semibold text-slate-950 hover:bg-emerald-300"
                             >
-                              📍 Ask at a nearby e-Sevai Centre
+                              📍{" "}
+                              {isTamil
+                                ? "அருகிலுள்ள e-Sevai மையத்தைக் கேளுங்கள்"
+                                : "Find a Nearby e-Sevai Centre"}
                             </a>
 
                           </div>
@@ -546,10 +622,7 @@ function SchemeDetails() {
           </motion.section>
         )}
 
-
-        {/* =========================================
-            APPLICATION ACTION CENTER
-        ========================================== */}
+        {/* APPLICATION ACTION CENTER */}
 
         <motion.section
           initial={{ opacity: 0, y: 30 }}
@@ -559,20 +632,25 @@ function SchemeDetails() {
         >
 
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-400">
-            UdyamSetu Action Center
+            {isTamil
+              ? "UdyamSetu செயல்பாட்டு மையம்"
+              : "UdyamSetu Action Center"}
           </p>
 
           <h2 className="mt-3 text-3xl font-bold">
-            What should you do next?
+            {isTamil
+              ? "அடுத்து என்ன செய்ய வேண்டும்?"
+              : "What Should You Do Next?"}
           </h2>
 
           <p className="mt-3 max-w-2xl leading-7 text-slate-400">
-            Follow the roadmap below to prepare, verify and
-            submit your application.
+            {isTamil
+              ? "உங்கள் விண்ணப்பத்தைத் தயாரிக்கவும், சரிபார்க்கவும், சமர்ப்பிக்கவும் கீழே உள்ள வழிகாட்டியைப் பின்பற்றவும்."
+              : "Follow the guide below to prepare, verify and submit your application."}
           </p>
 
-
           {/* READINESS */}
+
           <div className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-5">
 
             <div className="flex flex-wrap items-center justify-between gap-4">
@@ -580,11 +658,16 @@ function SchemeDetails() {
               <div>
 
                 <p className="text-sm text-slate-400">
-                  Application readiness
+                  {isTamil
+                    ? "விண்ணப்பத் தயார்நிலை"
+                    : "Application Readiness"}
                 </p>
 
                 <p className="mt-1 text-xl font-bold">
-                  {completedSteps} / 4 steps completed
+                  {completedSteps} / 4{" "}
+                  {isTamil
+                    ? "படிகள் முடிந்தன"
+                    : "steps completed"}
                 </p>
 
               </div>
@@ -594,7 +677,6 @@ function SchemeDetails() {
               </div>
 
             </div>
-
 
             <div className="mt-5 h-2 overflow-hidden rounded-full bg-white/10">
 
@@ -613,12 +695,14 @@ function SchemeDetails() {
 
           </div>
 
-
           {/* ROADMAP */}
+
           <div className="mt-8">
 
             <h3 className="text-xl font-bold">
-              Your application roadmap
+              {isTamil
+                ? "உங்கள் விண்ணப்பப் பாதை"
+                : "Your Application Roadmap"}
             </h3>
 
             <div className="mt-6 space-y-4">
@@ -649,7 +733,6 @@ function SchemeDetails() {
                         {step.number}
                       </div>
 
-
                       <div className="flex-1">
 
                         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -660,9 +743,16 @@ function SchemeDetails() {
 
                           <span
                             className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                              step.status === "Ready" ||
-                              step.status === "Verified" ||
-                              step.status === "Confirmed"
+                              step.status ===
+                                (isTamil ? "தயார்" : "Ready") ||
+                              step.status ===
+                                (isTamil
+                                  ? "சரிபார்க்கப்பட்டது"
+                                  : "Verified") ||
+                              step.status ===
+                                (isTamil
+                                  ? "உறுதிப்படுத்தப்பட்டது"
+                                  : "Confirmed")
                                 ? "bg-emerald-400/10 text-emerald-400"
                                 : "bg-amber-400/10 text-amber-400"
                             }`}
@@ -676,22 +766,22 @@ function SchemeDetails() {
                           {step.description}
                         </p>
 
-
-                        {/* =====================================
-                            STEP 1 REDIRECT
-                        ====================================== */}
+                        {/* STEP 1 */}
 
                         {index === 0 && (
                           <div className="mt-4 rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-4">
 
                             <p className="text-sm font-semibold text-cyan-300">
-                              📄 Need to obtain a document?
+                              📄{" "}
+                              {isTamil
+                                ? "ஆவணம் பெற வேண்டுமா?"
+                                : "Need a Document?"}
                             </p>
 
                             <p className="mt-1 text-xs leading-5 text-slate-400">
-                              Use the official Tamil Nadu e-Sevai
-                              portal to access available certificate
-                              services.
+                              {isTamil
+                                ? "கிடைக்கக்கூடிய சான்றிதழ் சேவைகளைப் பயன்படுத்த தமிழ்நாடு e-Sevai-ன் அதிகாரப்பூர்வ இணையதளத்தைப் பயன்படுத்தவும்."
+                                : "Use the official Tamil Nadu e-Sevai website for available certificate services."}
                             </p>
 
                             <a
@@ -700,17 +790,16 @@ function SchemeDetails() {
                               rel="noopener noreferrer"
                               className="mt-3 inline-block rounded-xl bg-cyan-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-300"
                             >
-                              🌐 Open Tamil Nadu e-Sevai
+                              🌐{" "}
+                              {isTamil
+                                ? "தமிழ்நாடு e-Sevai திறக்கவும்"
+                                : "Open Tamil Nadu e-Sevai"}
                             </a>
 
                           </div>
                         )}
 
-
-                        {/* =====================================
-                            STEP 2 VERIFICATION
-                            NSFDC ELIGIBILITY + HELPLINE
-                        ====================================== */}
+                        {/* STEP 2 */}
 
                         {index === 1 && (
                           <div className="mt-4 space-y-3">
@@ -718,13 +807,16 @@ function SchemeDetails() {
                             <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/5 p-4">
 
                               <p className="text-sm font-semibold text-emerald-300">
-                                ✓ Verify the exact eligibility requirements
+                                ✓{" "}
+                                {isTamil
+                                  ? "சரியான தகுதி விதிமுறைகளைச் சரிபார்க்கவும்"
+                                  : "Check the Latest Eligibility Rules"}
                               </p>
 
                               <p className="mt-1 text-xs leading-5 text-slate-400">
-                                Check the latest official NSFDC eligibility
-                                and scheme information before confirming
-                                this step.
+                                {isTamil
+                                  ? "இந்தப் படியை உறுதிப்படுத்துவதற்கு முன், சமீபத்திய அதிகாரப்பூர்வ NSFDC தகுதி மற்றும் திட்ட விவரங்களைச் சரிபார்க்கவும்."
+                                  : "Before confirming this step, check the latest official NSFDC eligibility and scheme details."}
                               </p>
 
                               <a
@@ -733,33 +825,40 @@ function SchemeDetails() {
                                 rel="noopener noreferrer"
                                 className="mt-3 inline-block rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
                               >
-                                🔎 Check NSFDC Eligibility
+                                🔎{" "}
+                                {isTamil
+                                  ? "NSFDC தகுதியைச் சரிபார்க்கவும்"
+                                  : "Check NSFDC Eligibility"}
                               </a>
 
                             </div>
 
-
                             <div className="rounded-xl border border-amber-400/20 bg-amber-400/5 p-4">
 
                               <p className="text-sm font-semibold text-amber-300">
-                                📞 Need help verifying eligibility?
+                                📞{" "}
+                                {isTamil
+                                  ? "தகுதியைச் சரிபார்க்க உதவி வேண்டுமா?"
+                                  : "Need Help Checking Eligibility?"}
                               </p>
 
                               <p className="mt-1 text-xs leading-5 text-slate-400">
-                                Contact the official NSFDC helpline
-                                if you need clarification about
-                                eligibility, documents or the scheme.
+                                {isTamil
+                                  ? "தகுதி, ஆவணங்கள் அல்லது திட்டம் தொடர்பான விளக்கங்களுக்கு அதிகாரப்பூர்வ NSFDC உதவி எண்ணைத் தொடர்புகொள்ளவும்."
+                                  : "Contact the official NSFDC helpline for questions about eligibility, documents or schemes."}
                               </p>
 
                               <a
                                 href={`tel:${NSFDC_PHONE}`}
                                 className="mt-3 inline-block rounded-xl bg-amber-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-amber-300"
                               >
-                                📞 Call NSFDC: {NSFDC_PHONE}
+                                📞{" "}
+                                {isTamil
+                                  ? `NSFDC அழைக்கவும்: ${NSFDC_PHONE}`
+                                  : `Call NSFDC: ${NSFDC_PHONE}`}
                               </a>
 
                             </div>
-
 
                             <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-black/20 p-4">
 
@@ -775,9 +874,9 @@ function SchemeDetails() {
                               />
 
                               <span className="text-sm text-slate-300">
-                                I have checked the latest eligibility
-                                requirements with the official scheme
-                                authority.
+                                {isTamil
+                                  ? "சமீபத்திய தகுதி விதிமுறைகளை அதிகாரப்பூர்வ திட்ட அமைப்பிடம் சரிபார்த்துவிட்டேன்."
+                                  : "I have checked the latest eligibility rules with the official scheme authority."}
                               </span>
 
                             </label>
@@ -785,10 +884,7 @@ function SchemeDetails() {
                           </div>
                         )}
 
-
-                        {/* =====================================
-                            STEP 3 APPLICATION CHANNEL
-                        ====================================== */}
+                        {/* STEP 3 */}
 
                         {index === 2 && (
                           <div className="mt-4">
@@ -796,35 +892,46 @@ function SchemeDetails() {
                             <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-4">
 
                               <p className="text-sm font-semibold text-cyan-300">
-                                🌐 Choose the official application channel
+                                🌐{" "}
+                                {isTamil
+                                  ? "அதிகாரப்பூர்வ விண்ணப்ப சேனலைத் தேர்வு செய்யவும்"
+                                  : "Choose an Official Application Channel"}
                               </p>
 
                               <p className="mt-1 text-xs leading-5 text-slate-400">
-                                NSFDC loan applications are routed through
-                                authorized channels. Use the official
-                                PM-SURAJ portal for online application.
+                                {isTamil
+                                  ? "NSFDC கடன் விண்ணப்பங்கள் அங்கீகரிக்கப்பட்ட சேனல்கள் மூலம் செயல்படுத்தப்படுகின்றன. ஆன்லைன் விண்ணப்பத்திற்கு அதிகாரப்பூர்வ PM-SURAJ போர்டலைப் பயன்படுத்தவும்."
+                                  : "NSFDC loan applications are processed through authorized channels. Use the official PM-SURAJ portal for online applications."}
                               </p>
 
                               <a
                                 href={PM_SURAJ_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                onClick={() => setChannelConfirmed(true)}
+                                onClick={() =>
+                                  setChannelConfirmed(true)
+                                }
                                 className="mt-3 inline-block rounded-xl bg-cyan-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-cyan-300"
                               >
-                                🌐 Open PM-SURAJ Portal
+                                🌐{" "}
+                                {isTamil
+                                  ? "PM-SURAJ போர்டலைத் திறக்கவும்"
+                                  : "Open PM-SURAJ Portal"}
                               </a>
 
-                              {/* CHANNEL PARTNER FINDER */}
                               <button
-                                onClick={() => navigate("/channel-partners")}
+                                onClick={() =>
+                                  navigate("/channel-partners")
+                                }
                                 className="mt-3 ml-2 inline-block rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
                               >
-                                📍 Find Authorized Channel Partners
+                                📍{" "}
+                                {isTamil
+                                  ? "அங்கீகரிக்கப்பட்ட சேனல் பார்ட்னர்களைக் காண்க"
+                                  : "View Authorized Channel Partners"}
                               </button>
 
                             </div>
-
 
                             <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-black/20 p-4">
 
@@ -840,8 +947,9 @@ function SchemeDetails() {
                               />
 
                               <span className="text-sm text-slate-300">
-                                I have confirmed the official
-                                application route I will use.
+                                {isTamil
+                                  ? "நான் பயன்படுத்தவுள்ள அதிகாரப்பூர்வ விண்ணப்ப வழியை உறுதிப்படுத்தியுள்ளேன்."
+                                  : "I have confirmed the official application channel I intend to use."}
                               </span>
 
                             </label>
@@ -849,33 +957,37 @@ function SchemeDetails() {
                           </div>
                         )}
 
-
-                        {/* =====================================
-                            STEP 4 SUBMISSION REDIRECT
-                        ====================================== */}
+                        {/* STEP 4 */}
 
                         {index === 3 && (
                           <div className="mt-4 rounded-xl border border-purple-400/20 bg-purple-400/5 p-4">
 
                             <p className="text-sm font-semibold text-purple-300">
-                              🚀 Ready to submit?
+                              🚀{" "}
+                              {isTamil
+                                ? "சமர்ப்பிக்கத் தயாரா?"
+                                : "Ready to Submit?"}
                             </p>
 
                             <p className="mt-1 text-xs leading-5 text-slate-400">
-                              Submit your application through the
-                              official PM-SURAJ portal or the
-                              authorized channel specified by the
-                              scheme authority.
+                              {isTamil
+                                ? "அதிகாரப்பூர்வ PM-SURAJ போர்டல் அல்லது திட்ட அதிகாரியால் குறிப்பிடப்பட்ட அங்கீகரிக்கப்பட்ட சேனல் மூலம் உங்கள் விண்ணப்பத்தைச் சமர்ப்பிக்கவும்."
+                                : "Submit your application through the official PM-SURAJ portal or an authorized channel specified by the scheme authority."}
                             </p>
 
                             <a
                               href={PM_SURAJ_URL}
                               target="_blank"
                               rel="noopener noreferrer"
-                              onClick={() => setChannelConfirmed(true)}
+                              onClick={() =>
+                                setChannelConfirmed(true)
+                              }
                               className="mt-3 inline-block rounded-xl bg-purple-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-purple-300"
                             >
-                              🚀 Go to PM-SURAJ
+                              🚀{" "}
+                              {isTamil
+                                ? "PM-SURAJ செல்லவும்"
+                                : "Go to PM-SURAJ"}
                             </a>
 
                           </div>
@@ -886,7 +998,6 @@ function SchemeDetails() {
                     </div>
 
                   </motion.div>
-
                 )
               )}
 
@@ -894,25 +1005,24 @@ function SchemeDetails() {
 
           </div>
 
-
-          {/* =========================================
-              OFFICIAL APPLICATION ROUTES
-          ========================================== */}
+          {/* OFFICIAL APPLICATION ROUTES */}
 
           <div className="mt-8">
 
             <h3 className="text-xl font-bold">
-              Official application routes
+              {isTamil
+                ? "அதிகாரப்பூர்வ விண்ணப்ப வழிகள்"
+                : "Official Application Routes"}
             </h3>
 
             <p className="mt-2 text-sm text-slate-400">
-              Use only official government channels when submitting
-              your application or verifying scheme information.
+              {isTamil
+                ? "உங்கள் விண்ணப்பத்தைச் சமர்ப்பிக்கவும் அல்லது திட்ட தகவல்களைச் சரிபார்க்கவும் அதிகாரப்பூர்வ அரசு சேனல்களை மட்டுமே பயன்படுத்தவும்."
+                : "Use only official government channels to submit your application or verify scheme information."}
             </p>
 
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
 
-              {/* PM-SURAJ */}
               <a
                 href={PM_SURAJ_URL}
                 target="_blank"
@@ -922,7 +1032,10 @@ function SchemeDetails() {
               >
 
                 <p className="text-sm text-slate-400">
-                  🌐 Online Application
+                  🌐{" "}
+                  {isTamil
+                    ? "ஆன்லைன் விண்ணப்பம்"
+                    : "Online Application"}
                 </p>
 
                 <p className="mt-2 font-bold text-cyan-300">
@@ -930,13 +1043,13 @@ function SchemeDetails() {
                 </p>
 
                 <p className="mt-2 text-xs text-slate-500">
-                  Open official portal →
+                  {isTamil
+                    ? "அதிகாரப்பூர்வ போர்டலைத் திறக்கவும் →"
+                    : "Open official portal →"}
                 </p>
 
               </a>
 
-
-              {/* NSFDC */}
               <a
                 href={NSFDC_URL}
                 target="_blank"
@@ -946,7 +1059,10 @@ function SchemeDetails() {
               >
 
                 <p className="text-sm text-slate-400">
-                  🏢 Scheme Authority
+                  🏢{" "}
+                  {isTamil
+                    ? "திட்ட அதிகார அமைப்பு"
+                    : "Scheme Authority"}
                 </p>
 
                 <p className="mt-2 font-bold text-emerald-300">
@@ -954,15 +1070,17 @@ function SchemeDetails() {
                 </p>
 
                 <p className="mt-2 text-xs text-slate-500">
-                  Verify scheme information →
+                  {isTamil
+                    ? "திட்ட விவரங்களைச் சரிபார்க்கவும் →"
+                    : "Verify scheme details →"}
                 </p>
 
               </a>
 
             </div>
 
+            {/* HELPLINE */}
 
-            {/* NSFDC HELPLINE */}
             <div className="mt-4 rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5">
 
               <div className="flex flex-wrap items-center justify-between gap-4">
@@ -970,21 +1088,25 @@ function SchemeDetails() {
                 <div>
 
                   <p className="text-sm text-slate-400">
-                    📞 Need help verifying the scheme?
+                    📞{" "}
+                    {isTamil
+                      ? "திட்டத்தைச் சரிபார்க்க உதவி வேண்டுமா?"
+                      : "Need Help Verifying the Scheme?"}
                   </p>
 
                   <p className="mt-2 font-bold text-amber-300">
-                    Contact NSFDC
+                    {isTamil
+                      ? "NSFDC-ஐ தொடர்புகொள்ளவும்"
+                      : "Contact NSFDC"}
                   </p>
 
                   <p className="mt-1 text-sm text-slate-400">
-                    Speak with the official authority to verify
-                    eligibility, documents, loan details and
-                    application procedures.
+                    {isTamil
+                      ? "தகுதி, ஆவணங்கள், கடன் விவரங்கள் மற்றும் விண்ணப்ப நடைமுறைகளைச் சரிபார்க்க அதிகாரப்பூர்வ அமைப்பைத் தொடர்புகொள்ளவும்."
+                      : "Contact the official authority to verify eligibility, documents, loan details and application procedures."}
                   </p>
 
                 </div>
-
 
                 <a
                   href={`tel:${NSFDC_PHONE}`}
@@ -1001,26 +1123,24 @@ function SchemeDetails() {
 
         </motion.section>
 
-
         {/* IMPORTANT NOTICE */}
+
         <section className="mt-8 rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-6">
 
           <p className="text-sm font-semibold text-yellow-300">
-            ⚠ Important
+            ⚠ {isTamil ? "முக்கியமானது" : "Important"}
           </p>
 
           <p className="mt-2 text-sm leading-6 text-slate-300">
-            UdyamSetu is a prototype designed to simplify
-            scheme discovery. Eligibility, loan amounts, interest
-            rates, documents and application procedures should be
-            verified using the latest information from the official
-            scheme authority before applying.
+            {isTamil
+              ? "UdyamSetu என்பது திட்டங்களைக் கண்டறிவதை எளிதாக்க உருவாக்கப்பட்ட ஒரு prototype ஆகும். தகுதி, கடன் தொகை, வட்டி விகிதம், ஆவணங்கள் மற்றும் விண்ணப்ப நடைமுறைகள் விண்ணப்பிக்கும் முன் சமீபத்திய அதிகாரப்பூர்வ தகவல்களுடன் சரிபார்க்கப்பட வேண்டும்."
+              : "UdyamSetu is a prototype designed to make scheme discovery easier. Eligibility, loan amount, interest rate, documents and application procedures should be verified against the latest official information before applying."}
           </p>
 
           {scheme.source?.name && (
             <p className="mt-4 text-sm text-slate-400">
 
-              Data source:{" "}
+              {isTamil ? "தகவல் மூலம்:" : "Information source:"}{" "}
 
               <span className="font-semibold text-white">
                 {scheme.source.name}
@@ -1031,13 +1151,15 @@ function SchemeDetails() {
 
         </section>
 
-
         {/* BACK */}
+
         <button
           onClick={() => navigate("/schemes")}
           className="mt-8 rounded-xl bg-emerald-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-emerald-300"
         >
-          ← Back to Recommendations
+          {isTamil
+            ? "← பரிந்துரைகளுக்குத் திரும்பவும்"
+            : "← Back to Recommendations"}
         </button>
 
       </div>

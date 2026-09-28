@@ -4,6 +4,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { schemes } from "../data/schemes";
+import { useLanguage } from "../i18n/LanguageContext";
 
 // ==================================================
 // NORMALIZE PURPOSE
@@ -116,13 +117,13 @@ const getIncomeValue = (income) => {
 // FORMAT INCOME
 // ==================================================
 
-const formatIncome = (income) => {
+const formatIncome = (income, t) => {
   if (
     income === null ||
     income === undefined ||
     income === ""
   ) {
-    return "Not specified";
+    return t.schemesResults.notSpecified;
   }
 
   const value = String(income)
@@ -145,7 +146,7 @@ const formatIncome = (income) => {
   }
 
   if (!numeric) {
-    return "Not specified";
+    return t.schemesResults.notSpecified;
   }
 
   return `₹${numeric.toLocaleString("en-IN")}`;
@@ -175,7 +176,7 @@ const normalizeState = (state) => {
 // CALCULATE MATCH
 // ==================================================
 
-function calculateMatch(scheme, answers) {
+function calculateMatch(scheme, answers, t) {
   const income = getIncomeValue(
     answers.income
   );
@@ -218,13 +219,13 @@ function calculateMatch(scheme, answers) {
     score += 40;
 
     reasons.push(
-      "The scheme matches your selected funding purpose."
+      t.schemesResults.reasons.purposeMatch
     );
   } else {
     score += 20;
 
     reasons.push(
-      "The selected purpose does not provide enough information for a strict purpose match."
+      t.schemesResults.reasons.purposeUnknown
     );
   }
 
@@ -238,26 +239,26 @@ function calculateMatch(scheme, answers) {
       score += 30;
 
       reasons.push(
-        "Your stated income is within the scheme's listed income limit."
+        t.schemesResults.reasons.incomeMatch
       );
     } else if (
       income > scheme.maxIncome
     ) {
       warnings.push(
-        "Your stated income may be above this scheme's listed income limit."
+        t.schemesResults.reasons.incomeAbove
       );
     } else {
       score += 15;
 
       warnings.push(
-        "Income information could not be fully compared with the scheme's income limit."
+        t.schemesResults.reasons.incomeUnknown
       );
     }
   } else {
     score += 20;
 
     reasons.push(
-      "No maximum income limit is specified in the available scheme data."
+      t.schemesResults.reasons.noIncomeLimit
     );
   }
 
@@ -276,7 +277,7 @@ function calculateMatch(scheme, answers) {
       score += 10;
 
       warnings.push(
-        "Applicant category was not specific enough for a complete category match."
+        t.schemesResults.reasons.categoryUnknown
       );
     } else if (
       schemeCategory === category ||
@@ -286,18 +287,18 @@ function calculateMatch(scheme, answers) {
       score += 20;
 
       reasons.push(
-        "Your applicant category matches the scheme's available category information."
+        t.schemesResults.reasons.categoryMatch
       );
     } else {
       warnings.push(
-        "Applicant category may not match the scheme's stated category requirements. Verify eligibility with the official authority."
+        t.schemesResults.reasons.categoryMismatch
       );
     }
   } else {
     score += 10;
 
     reasons.push(
-      "No specific category restriction is available in the scheme data."
+      t.schemesResults.reasons.noCategory
     );
   }
 
@@ -321,18 +322,18 @@ function calculateMatch(scheme, answers) {
       score += 10;
 
       reasons.push(
-        "The scheme is associated with your selected state."
+        t.schemesResults.reasons.stateMatch
       );
     } else {
       warnings.push(
-        "The scheme's state coverage may not match your selected state. Verify the official application route."
+        t.schemesResults.reasons.stateMismatch
       );
     }
   } else {
     score += 10;
 
     reasons.push(
-      "No state-specific restriction is specified in the available scheme data."
+      t.schemesResults.reasons.noState
     );
   }
 
@@ -357,6 +358,7 @@ function calculateMatch(scheme, answers) {
 // ==================================================
 
 function Schemes() {
+  const { t } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -376,7 +378,8 @@ function Schemes() {
     .map((scheme) =>
       calculateMatch(
         scheme,
-        answers
+        answers,
+        t
       )
     )
     .filter(Boolean)
@@ -418,11 +421,13 @@ function Schemes() {
             matchScore: 10,
 
             reasons: [
-              "This scheme belongs to the purpose category you selected.",
+              t.schemesResults.reasons
+                .fallbackPurpose,
             ],
 
             warnings: [
-              "Your profile did not produce a strong match. Verify the official eligibility requirements before applying.",
+              t.schemesResults.reasons
+                .fallbackWarning,
             ],
           }))
           .slice(0, 3);
@@ -434,11 +439,13 @@ function Schemes() {
           matchScore: 1,
 
           reasons: [
-            "The current prototype database does not contain enough schemes for your selected purpose.",
+            t.schemesResults.reasons
+              .databaseFallback,
           ],
 
           warnings: [
-            "This scheme is shown only as a fallback and may not match your selected purpose. Verify official schemes before applying.",
+            t.schemesResults.reasons
+              .databaseFallbackWarning,
           ],
         },
       ];
@@ -454,7 +461,10 @@ function Schemes() {
       "/channel-partners",
       {
         state: {
-          state: answers.state || "Tamil Nadu",
+          state:
+            answers.state ||
+            "Tamil Nadu",
+
           district:
             answers.district ||
             answers.city ||
@@ -483,17 +493,15 @@ function Schemes() {
         >
 
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-400">
-            UdyamSetu Results
+            {t.schemesResults.resultsLabel}
           </p>
 
           <h1 className="text-4xl font-bold md:text-5xl">
-            Schemes matched to your profile
+            {t.schemesResults.title}
           </h1>
 
           <p className="mt-4 max-w-2xl text-slate-300">
-            UdyamSetu analyzes your income, applicant
-            category, funding purpose and state to identify
-            potentially relevant government schemes.
+            {t.schemesResults.description}
           </p>
 
         </motion.div>
@@ -503,60 +511,61 @@ function Schemes() {
         <div className="mt-10 rounded-2xl border border-cyan-400/20 bg-cyan-500/10 p-6">
 
           <h2 className="text-xl font-bold">
-            Your Assessment
+            {t.schemesResults.assessment}
           </h2>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
 
             <div>
               <p className="text-sm text-slate-400">
-                Annual Income
+                {t.schemesResults.annualIncome}
               </p>
 
               <p className="font-semibold">
                 {formatIncome(
-                  answers.income
+                  answers.income,
+                  t
                 )}
               </p>
             </div>
 
             <div>
               <p className="text-sm text-slate-400">
-                Category
+                {t.schemesResults.category}
               </p>
 
               <p className="font-semibold">
                 {answers.category ||
-                  "Not specified"}
+                  t.schemesResults.notSpecified}
               </p>
             </div>
 
             <div>
               <p className="text-sm text-slate-400">
-                Purpose
+                {t.schemesResults.purpose}
               </p>
 
               <p className="font-semibold">
                 {answers.purpose ||
-                  "Not specified"}
+                  t.schemesResults.notSpecified}
               </p>
             </div>
 
             <div>
               <p className="text-sm text-slate-400">
-                State
+                {t.schemesResults.state}
               </p>
 
               <p className="font-semibold">
                 {answers.state ||
-                  "Not specified"}
+                  t.schemesResults.notSpecified}
               </p>
             </div>
 
             {answers.district && (
               <div>
                 <p className="text-sm text-slate-400">
-                  District / City
+                  {t.schemesResults.district}
                 </p>
 
                 <p className="font-semibold">
@@ -591,17 +600,15 @@ function Schemes() {
             <div>
 
               <p className="text-sm font-semibold uppercase tracking-wider text-cyan-400">
-                Next Step
+                {t.schemesResults.nextStep}
               </p>
 
               <h2 className="mt-2 text-2xl font-bold">
-                Find an authorized Channel Partner
+                {t.schemesResults.findPartnerTitle}
               </h2>
 
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
-                Locate a suitable State Channelizing Agency,
-                Public Sector Bank, Regional Rural Bank or
-                NBFC-MFI for the next stage of your application.
+                {t.schemesResults.findPartnerDescription}
               </p>
 
             </div>
@@ -610,7 +617,7 @@ function Schemes() {
               onClick={openChannelPartners}
               className="shrink-0 rounded-xl bg-cyan-400 px-5 py-3 font-bold text-slate-950 transition hover:bg-cyan-300"
             >
-              📍 Find Channel Partner →
+              📍 {t.schemesResults.findPartner} →
             </button>
 
           </div>
@@ -624,11 +631,12 @@ function Schemes() {
           <div className="mb-5 flex items-center justify-between">
 
             <h2 className="text-2xl font-bold">
-              Recommended Schemes
+              {t.schemesResults.recommended}
             </h2>
 
             <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-sm text-emerald-400">
-              {matchedSchemes.length} options
+              {matchedSchemes.length}{" "}
+              {t.schemesResults.options}
             </span>
 
           </div>
@@ -642,19 +650,21 @@ function Schemes() {
             <div className="mb-6 rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-5">
 
               <p className="text-sm font-semibold text-cyan-300">
-                Purpose-filtered recommendations
+                {t.schemesResults.purposeFiltered}
               </p>
 
               <p className="mt-2 text-sm leading-6 text-slate-400">
-                Because you selected{" "}
+
+                {t.schemesResults.purposeMessage}{" "}
 
                 <span className="font-semibold text-white">
                   {answers.purpose}
                 </span>
 
-                , UdyamSetu is prioritizing schemes
-                designed for that purpose instead of
-                displaying unrelated scheme types.
+                ,{" "}
+
+                {t.schemesResults.purposeMessageEnd}
+
               </p>
 
             </div>
@@ -696,7 +706,7 @@ function Schemes() {
 
                       <p className="text-sm font-semibold uppercase tracking-wider text-emerald-400">
                         {scheme.type ||
-                          "Financial Assistance"}
+                          t.schemesResults.financialAssistance}
                       </p>
 
                       <h3 className="mt-2 text-xl font-bold">
@@ -722,7 +732,7 @@ function Schemes() {
                   <div className="mt-5 rounded-xl bg-emerald-400/5 p-4">
 
                     <p className="text-sm font-semibold text-emerald-400">
-                      Why this was recommended
+                      {t.schemesResults.whyRecommended}
                     </p>
 
                     <ul className="mt-2 space-y-2 text-sm text-slate-300">
@@ -753,7 +763,7 @@ function Schemes() {
                     <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/5 p-4">
 
                       <p className="text-sm font-semibold text-amber-400">
-                        Eligibility note
+                        {t.schemesResults.eligibilityNote}
                       </p>
 
                       <ul className="mt-2 space-y-2 text-sm text-slate-300">
@@ -784,7 +794,7 @@ function Schemes() {
                   <div className="mt-5 border-t border-white/10 pt-5">
 
                     <p className="text-xs uppercase tracking-wider text-slate-500">
-                      Maximum assistance
+                      {t.schemesResults.maximumAssistance}
                     </p>
 
                     <p className="mt-1 text-lg font-bold text-emerald-400">
@@ -795,7 +805,7 @@ function Schemes() {
                           ).toLocaleString(
                             "en-IN"
                           )}`
-                        : "See official scheme details"}
+                        : t.schemesResults.seeOfficialDetails}
 
                     </p>
 
@@ -804,9 +814,9 @@ function Schemes() {
                   {/* SOURCE */}
 
                   <p className="mt-4 text-xs text-slate-500">
-                    Source:{" "}
+                    {t.schemesResults.source}{" "}
                     {scheme.source?.name ||
-                      "Source not specified"}
+                      t.schemesResults.sourceNotSpecified}
                   </p>
 
                   {/* DETAILS BUTTON */}
@@ -825,7 +835,7 @@ function Schemes() {
                     }
                     className="mt-5 w-full rounded-xl bg-emerald-400 px-4 py-3 font-semibold text-slate-950 transition hover:bg-emerald-300"
                   >
-                    View Scheme Details →
+                    {t.schemesResults.viewDetails} →
                   </button>
 
                 </motion.div>
@@ -842,15 +852,11 @@ function Schemes() {
         <div className="mt-8 rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-5">
 
           <p className="text-sm font-semibold text-yellow-300">
-            ⚠ Important
+            ⚠ {t.schemesResults.important}
           </p>
 
           <p className="mt-2 text-sm leading-6 text-slate-400">
-            Match percentage indicates how closely the
-            available scheme data matches the information
-            provided in your assessment. It does not confirm
-            eligibility. Always verify the latest eligibility
-            requirements with the official scheme authority.
+            {t.schemesResults.disclaimer}
           </p>
 
         </div>
@@ -863,7 +869,7 @@ function Schemes() {
           }
           className="mt-8 text-sm text-slate-400 transition hover:text-white"
         >
-          ← Modify assessment
+          ← {t.schemesResults.modifyAssessment}
         </button>
 
       </div>
